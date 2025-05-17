@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';  
+import 'home_page.dart';
+import 'package:condomonioconectado/database/database_helper.dart'; // importa o helper com o método buscarUsuario
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,26 +14,42 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
 
-  void _fazerLogin() {
-    if (_formKey.currentState!.validate()) {
-      String email = _emailController.text;
-      String senha = _senhaController.text;
+void _fazerLogin() async {
+  if (_formKey.currentState!.validate()) {
+    String email = _emailController.text;
+    String senha = _senhaController.text;
 
-      // Aqui você pode fazer a lógica de autenticação
-      print('Email: $email');
-      print('Senha: $senha');
+    final dbHelper = DatabaseHelper();
+    final usuario = await dbHelper.autenticarUsuario(email, senha);
 
+    if (usuario != null) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => const HomePage()),
+        MaterialPageRoute(
+          builder: (_) => HomePage(usuario: usuario),
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: const Text('Erro'),
+          content: const Text('E-mail ou senha incorretos.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('OK'),
+            )
+          ],
+        ),
       );
     }
   }
-
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 61, 96, 178),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -42,14 +59,16 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.home, size: 80, color: Color.fromARGB(255, 85, 216, 80)),
+                  const Icon(Icons.home, size: 80, color: Color.fromARGB(255, 9, 34, 92)),
                   const SizedBox(height: 32),
                   TextFormField(
                     controller: _emailController,
                     decoration: const InputDecoration(
-                      labelText: 'E-mail',
+                      hintText: 'E-mail',
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.email),
+                      filled: true,
+                      fillColor: Color.fromARGB(255, 142, 164, 214),
                     ),
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
@@ -62,9 +81,11 @@ class _LoginPageState extends State<LoginPage> {
                   TextFormField(
                     controller: _senhaController,
                     decoration: const InputDecoration(
-                      labelText: 'Senha',
+                      hintText: 'Senha',
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.lock),
+                      filled: true,
+                      fillColor: Color.fromARGB(255, 142, 164, 214),
                     ),
                     obscureText: true,
                     validator: (value) {
@@ -75,13 +96,20 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 24),
                   SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: _fazerLogin,
-                        style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 102, 233, 97), // Aqui você muda a cor
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _fazerLogin,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 89, 117, 190),
+                        foregroundColor: Colors.white, // Cor do texto do botão
+                      ),
+                      child: const Text('Entrar',
+                        style: TextStyle(
+                          fontSize: 15
                         ),
-                        child: const Text('Entrar'),
+                      ),
+                      
+                      
                     ),
                   ),
                 ],
