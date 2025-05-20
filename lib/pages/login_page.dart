@@ -1,3 +1,4 @@
+import 'package:condomonioconectado/pages/redefinir_senha_page.dart';
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'package:condomonioconectado/database/database_helper.dart'; // importa o helper com o método buscarUsuario
@@ -112,6 +113,19 @@ void _fazerLogin() async {
                       
                     ),
                   ),
+                  const SizedBox(height: 12),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => const RedefinirSenhaPage()),
+                        );
+                      },
+                      child: const Text(
+                        'Esqueci minha senha',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
                 ],
               ),
             ),

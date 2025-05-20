@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 85, 216, 80),
+        backgroundColor: const Color.fromARGB(255, 61, 96, 178),
         title: const Text('Condomínio Conectado'),
         centerTitle: true,
         actions: [
@@ -53,7 +53,7 @@ class HomePage extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.zero,
-                    backgroundColor: const Color.fromARGB(255, 85, 216, 80),
+                    backgroundColor: const Color.fromARGB(255, 9, 34, 92),
                   ),
                   child: Center(
                     child: Text(
