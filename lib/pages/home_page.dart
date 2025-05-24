@@ -1,14 +1,30 @@
 import 'package:flutter/material.dart';
-import 'login_page.dart'; // ajuste o caminho conforme sua estrutura
-
+import 'login_page.dart'; 
+import 'options/cadastroMorador/cadastrar_morador_page.dart'; 
 
 class HomePage extends StatelessWidget {
   final Map<String, dynamic> usuario;
 
   const HomePage({super.key, required this.usuario});
 
+  List<String> _obterOpcoes(String tipoUsuario) {
+    switch (tipoUsuario) {
+      case 'morador':
+        return ['Opção 1', 'Opção 2', 'Opção 3', 'Opção 4', 'Opção 5'];
+      case 'funcionario':
+        return ['Opção 1', 'Opção 2', 'Opção 3', 'Opção 4', 'Opção 5', 'Opção 6', 'Opção 7', 'Opção 8'];
+      case 'sindico':
+        return ['Morador', 'Opção 2', 'Opção 3', 'Opção 4', 'Opção 5', 'Opção 6'];
+      default:
+        return ['Opção 1']; // padrão para tipos desconhecidos
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final tipoUsuario = usuario['tipo_usuario'] ?? 'desconhecido';
+    final opcoes = _obterOpcoes(tipoUsuario);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 61, 96, 178),
@@ -32,10 +48,9 @@ class HomePage extends StatelessWidget {
         children: [
           const SizedBox(height: 20),
           Text(
-            'Bem-vindo, ${usuario['email']}!',
+            'Bem-vindo, ${usuario['nome']}!',
             style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
-          Text('Tipo: ${usuario['tipo_usuario']}'),
           const SizedBox(height: 20),
           Expanded(
             child: GridView.builder(
@@ -45,21 +60,46 @@ class HomePage extends StatelessWidget {
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
               ),
-              itemCount: 12,
+              itemCount: opcoes.length,
               itemBuilder: (context, index) {
+                final opcao = opcoes[index];
                 return ElevatedButton(
                   onPressed: () {
-                    print("Opção ${index + 1} selecionada");
+                    if (opcao == 'Morador' && tipoUsuario == 'sindico') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const CadastrarMoradorPage()),
+                      );
+                    } else {
+                      print("$opcao selecionada");
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.zero,
-                    backgroundColor: const Color.fromARGB(255, 9, 34, 92),
+                    backgroundColor: const Color.fromARGB(255, 61, 96, 178),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero, // quadrado
+                    ),
                   ),
                   child: Center(
-                    child: Text(
-                      'Opção ${index + 1}',
-                      style: const TextStyle(color: Colors.white),
-                    ),
+                    child: opcao == 'Morador'
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(Icons.person_add, color: Colors.white, size: 60),
+                              SizedBox(height: 8),
+                              Text(
+                                'Morador',
+                                style: TextStyle(color: Colors.white),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          )
+                        : Text(
+                            opcao,
+                            style: const TextStyle(color: Colors.white),
+                            textAlign: TextAlign.center,
+                          ),
                   ),
                 );
               },

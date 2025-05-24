@@ -1,7 +1,8 @@
 import 'package:condomonioconectado/pages/redefinir_senha_page.dart';
 import 'package:flutter/material.dart';
 import 'home_page.dart';
-import 'package:condomonioconectado/database/database_helper.dart'; // importa o helper com o método buscarUsuario
+import 'package:condomonioconectado/database/database_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // Importação adicionada
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -23,14 +24,25 @@ void _fazerLogin() async {
     final dbHelper = DatabaseHelper();
     final usuario = await dbHelper.autenticarUsuario(email, senha);
 
+    print('Usuario retornado: $usuario');  // print para depurar
+
     if (usuario != null) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => HomePage(usuario: usuario),
-        ),
-      );
+      print('usuario id: ${usuario['id']}');
+      if (usuario['id'] != null) {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setInt('usuario_id', usuario['id']);
+        
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => HomePage(usuario: usuario),
+          ),
+        );
+      } else {
+        print('Erro: id do usuario é null');
+      }
     } else {
+      print('Usuário não encontrado ou email/senha incorretos');
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -47,6 +59,8 @@ void _fazerLogin() async {
     }
   }
 }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,30 +116,27 @@ void _fazerLogin() async {
                       onPressed: _fazerLogin,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromARGB(255, 89, 117, 190),
-                        foregroundColor: Colors.white, // Cor do texto do botão
+                        foregroundColor: Colors.white,
                       ),
-                      child: const Text('Entrar',
-                        style: TextStyle(
-                          fontSize: 15
-                        ),
+                      child: const Text(
+                        'Entrar',
+                        style: TextStyle(fontSize: 15),
                       ),
-                      
-                      
                     ),
                   ),
                   const SizedBox(height: 12),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => const RedefinirSenhaPage()),
-                        );
-                      },
-                      child: const Text(
-                        'Esqueci minha senha',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const RedefinirSenhaPage()),
+                      );
+                    },
+                    child: const Text(
+                      'Esqueci minha senha',
+                      style: TextStyle(color: Colors.white),
                     ),
+                  ),
                 ],
               ),
             ),
