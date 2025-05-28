@@ -1,3 +1,4 @@
+import 'package:condomonioconectado/pages/options/cadastrar_pet_page.dart';
 import 'package:flutter/material.dart';
 import 'login_page.dart'; 
 import 'options/cadastroMorador/cadastrar_morador_page.dart'; 
@@ -10,7 +11,7 @@ class HomePage extends StatelessWidget {
   List<String> _obterOpcoes(String tipoUsuario) {
     switch (tipoUsuario) {
       case 'morador':
-        return ['Opção 1', 'Opção 2', 'Opção 3', 'Opção 4', 'Opção 5'];
+        return ['Opção 1', 'Opção 2', 'Opção 3', 'Opção 4', 'Cadastrar Pet'];
       case 'funcionario':
         return ['Opção 1', 'Opção 2', 'Opção 3', 'Opção 4', 'Opção 5', 'Opção 6', 'Opção 7', 'Opção 8'];
       case 'sindico':
@@ -69,6 +70,12 @@ class HomePage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (_) => const CadastrarMoradorPage()),
+                      ); 
+                    }
+                    if (opcao == 'Cadastrar Pet' && tipoUsuario == 'morador') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const CadastrarPetPage()),
                       );
                     } else {
                       print("$opcao selecionada");
