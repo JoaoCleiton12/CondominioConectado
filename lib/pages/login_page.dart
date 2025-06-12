@@ -2,7 +2,7 @@ import 'package:condomonioconectado/pages/redefinir_senha_page.dart';
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'package:condomonioconectado/database/database_helper.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // Importação adicionada
+import 'package:shared_preferences/shared_preferences.dart'; 
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

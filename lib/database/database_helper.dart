@@ -54,6 +54,16 @@ class DatabaseHelper {
       )
     ''');
 
+    await db.execute('''
+      CREATE TABLE pets (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        casa TEXT NOT NULL,
+        dono_id INTEGER NOT NULL,
+        FOREIGN KEY(dono_id) REFERENCES usuarios(id)
+      )
+    ''');
+
     // Usuários de teste
     await db.insert('usuarios', {
       'nome': 'Joao',
@@ -62,7 +72,10 @@ class DatabaseHelper {
       'senha': '123456',
       'tipo_usuario': 'sindico',
     });
+
   }
+
+
 
   // INSERIR USUARIO, RETORNANDO O ID GERADO
   Future<int> inserirUsuario(Map<String, dynamic> usuario) async {
@@ -112,6 +125,26 @@ class DatabaseHelper {
 
     return token;
   }
+
+  Future<int> inserirPet(String nome, String casa, int donoId) async {
+  final db = await database;
+
+  return await db.insert('pets', {
+    'nome': nome,
+    'casa': casa,
+    'dono_id': donoId,
+  });
+}
+
+Future<List<Map<String, dynamic>>> buscarPetsDoUsuario(int donoId) async {
+  final db = await database;
+  return await db.query(
+    'pets',
+    where: 'dono_id = ?',
+    whereArgs: [donoId],
+  );
+}
+
 
   Future<bool> redefinirSenha(String token, String novaSenha) async {
     final db = await database;

@@ -1,8 +1,18 @@
+import 'package:condomonioconectado/database/database_helper.dart';
 import 'package:flutter/material.dart';
 import 'pages/login_page.dart';
 
-void main() {
+void main() async{
   runApp(const MyApp());
+
+/*
+  Comandos para resetar o bd
+
+  adb shell
+  run-as com.example.condomonioconectado
+  cd databases
+  rm condominio.db*
+*/
 }
 
 class MyApp extends StatelessWidget {

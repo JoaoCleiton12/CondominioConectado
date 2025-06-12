@@ -1,4 +1,6 @@
+import 'package:condomonioconectado/database/database_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CadastrarPetPage extends StatefulWidget {
   const CadastrarPetPage({super.key});
@@ -16,8 +18,33 @@ class _CadastrarPetPageState extends State<CadastrarPetPage> {
 
   // #TODO cadastrar Pet function
   void _cadastrarPet() async {
+  if (_formKey.currentState!.validate()) {
+    final prefs = await SharedPreferences.getInstance();
+    final usuarioId = prefs.getInt('usuario_id');
 
+    if (usuarioId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Usuário não autenticado.'))
+      );
+      return;
+    }
+
+    final nome = _nomeController.text;
+    final casa = _casaController.text;
+
+    final dbHelper = DatabaseHelper();
+
+    await dbHelper.inserirPet(nome, casa, usuarioId);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Pet cadastrado com sucesso!'))
+    );
+
+    _nomeController.clear();
+    _casaController.clear();
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +74,64 @@ class _CadastrarPetPageState extends State<CadastrarPetPage> {
               ),
               const SizedBox(height: 10),
               FilledButton.icon(
-                onPressed: () {
-                  print('<button pressed> Cadastrar seus pets');
-                },
+                onPressed: _cadastrarPet,
                 icon: const Icon(Icons.add),
                 label: const Text("Cadastrar Pet"),
               ),
               const SizedBox(height: 10),
               TextButton.icon(
-                onPressed: () {
-                  print('<button pressed> Listar seus pets');
+                onPressed: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  final usuarioId = prefs.getInt('usuario_id');
+
+                  if (usuarioId == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Usuário não autenticado.'))
+                    );
+                    return;
+                  }
+
+                  final dbHelper = DatabaseHelper();
+                  final pets = await dbHelper.buscarPetsDoUsuario(usuarioId);
+
+                  if (pets.isEmpty) {
+                    showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                        title: const Text('Seus pets'),
+                        content: const Text('Nenhum pet cadastrado.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text('Fechar'),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                        title: const Text('Seus pets'),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: pets.map((pet) {
+                            return ListTile(
+                              leading: const Icon(Icons.pets),
+                              title: Text(pet['nome']),
+                              subtitle: Text('Casa: ${pet['casa']}'),
+                            );
+                          }).toList(),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text('Fechar'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
                 },
                 icon: const Icon(Icons.pets),
                 label: const Text('Listar seus pets'),
