@@ -1,4 +1,4 @@
-import 'package:condomonioconectado/pages/redefinir_senha_page.dart';
+import 'package:condomonioconectado/pages/Usuario/redefinir_senha_page.dart';
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'package:condomonioconectado/database/database_helper.dart';

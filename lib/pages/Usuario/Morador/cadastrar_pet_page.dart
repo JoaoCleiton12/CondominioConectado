@@ -11,40 +11,36 @@ class CadastrarPetPage extends StatefulWidget {
 
 class _CadastrarPetPageState extends State<CadastrarPetPage> {
   final _formKey = GlobalKey<FormState>();
-
   final TextEditingController _nomeController = TextEditingController();
-  final TextEditingController _casaController = TextEditingController();
+  final TextEditingController _idadeController = TextEditingController();
 
-
-  // #TODO cadastrar Pet function
   void _cadastrarPet() async {
-  if (_formKey.currentState!.validate()) {
-    final prefs = await SharedPreferences.getInstance();
-    final usuarioId = prefs.getInt('usuario_id');
+    if (_formKey.currentState!.validate()) {
+      final prefs = await SharedPreferences.getInstance();
+      final usuarioId = prefs.getInt('usuario_id');
 
-    if (usuarioId == null) {
+      if (usuarioId == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Usuário não autenticado.'))
+        );
+        return;
+      }
+
+      final nome = _nomeController.text;
+      final idade = _idadeController.text;
+
+      final dbHelper = DatabaseHelper();
+
+      await dbHelper.inserirPet(nome, idade, usuarioId);
+
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Usuário não autenticado.'))
+        const SnackBar(content: Text('Pet cadastrado com sucesso!'))
       );
-      return;
+
+      _nomeController.clear();
+      _idadeController.clear();
     }
-
-    final nome = _nomeController.text;
-    final casa = _casaController.text;
-
-    final dbHelper = DatabaseHelper();
-
-    await dbHelper.inserirPet(nome, casa, usuarioId);
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Pet cadastrado com sucesso!'))
-    );
-
-    _nomeController.clear();
-    _casaController.clear();
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +49,6 @@ class _CadastrarPetPageState extends State<CadastrarPetPage> {
         title: const Text('Cadastrar Pet'),
         backgroundColor: const Color.fromARGB(255, 61, 96, 178),
       ),
-
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -67,10 +62,11 @@ class _CadastrarPetPageState extends State<CadastrarPetPage> {
                     value == null || value.isEmpty ? 'Campo nome vazio' : null,
               ),
               TextFormField(
-                controller: _casaController,
-                decoration: const InputDecoration(labelText: 'Casa'),
+                controller: _idadeController,
+                decoration: const InputDecoration(labelText: 'Idade'),
+                keyboardType: TextInputType.number,
                 validator: (value) =>
-                    value == null || value.isEmpty ? 'Campo casa vazio' : null,
+                    value == null || value.isEmpty ? 'Campo idade vazio' : null,
               ),
               const SizedBox(height: 10),
               FilledButton.icon(
@@ -119,7 +115,7 @@ class _CadastrarPetPageState extends State<CadastrarPetPage> {
                             return ListTile(
                               leading: const Icon(Icons.pets),
                               title: Text(pet['nome']),
-                              subtitle: Text('Casa: ${pet['casa']}'),
+                              subtitle: Text('Idade: ${pet['idade']}'),
                             );
                           }).toList(),
                         ),
@@ -143,5 +139,3 @@ class _CadastrarPetPageState extends State<CadastrarPetPage> {
     );
   }
 }
-
-

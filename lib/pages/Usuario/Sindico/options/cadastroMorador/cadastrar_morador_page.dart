@@ -1,5 +1,5 @@
 import 'package:condomonioconectado/database/database_helper.dart';
-import 'package:condomonioconectado/pages/options/listar_moradores_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Sindico/options/cadastroMorador/listar_moradores_page.dart';
 import 'package:flutter/material.dart';
 
 class CadastrarMoradorPage extends StatefulWidget {

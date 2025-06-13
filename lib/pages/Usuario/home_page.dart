@@ -1,7 +1,8 @@
-import 'package:condomonioconectado/pages/options/cadastrar_pet_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Morador/cadastrar_pet_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Sindico/options/ListarPets/listar_pets_page.dart';
 import 'package:flutter/material.dart';
 import 'login_page.dart'; 
-import 'options/cadastroMorador/cadastrar_morador_page.dart'; 
+import 'Sindico/options/cadastroMorador/cadastrar_morador_page.dart'; 
 
 class HomePage extends StatelessWidget {
   final Map<String, dynamic> usuario;
@@ -15,7 +16,7 @@ class HomePage extends StatelessWidget {
       case 'funcionario':
         return ['Opção 1', 'Opção 2', 'Opção 3', 'Opção 4', 'Opção 5', 'Opção 6', 'Opção 7', 'Opção 8'];
       case 'sindico':
-        return ['Morador', 'Opção 2', 'Opção 3', 'Opção 4', 'Opção 5', 'Opção 6'];
+        return ['Morador', 'Listar Pets', 'Opção 3', 'Opção 4', 'Opção 5', 'Opção 6'];
       default:
         return ['Opção 1']; // padrão para tipos desconhecidos
     }
@@ -77,7 +78,14 @@ class HomePage extends StatelessWidget {
                         context,
                         MaterialPageRoute(builder: (_) => const CadastrarPetPage()),
                       );
-                    } else {
+                    } 
+                    if (opcao == 'Listar Pets' && tipoUsuario == 'sindico') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const ListarPetsPage()),
+                      );
+                    }
+                    else {
                       print("$opcao selecionada");
                     }
                   },
@@ -89,7 +97,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   child: Center(
-                    child: opcao == 'Morador'
+                    child: (opcao == 'Morador' && tipoUsuario == 'sindico')
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [
@@ -102,11 +110,24 @@ class HomePage extends StatelessWidget {
                               ),
                             ],
                           )
-                        : Text(
-                            opcao,
-                            style: const TextStyle(color: Colors.white),
-                            textAlign: TextAlign.center,
-                          ),
+                        : (opcao == 'Listar Pets' && tipoUsuario == 'sindico')
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(Icons.pets, color: Colors.white, size: 60),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Listar Pets',
+                                    style: TextStyle(color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              )
+                            : Text(
+                                opcao,
+                                style: const TextStyle(color: Colors.white),
+                                textAlign: TextAlign.center,
+                              ),
                   ),
                 );
               },

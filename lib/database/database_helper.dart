@@ -58,7 +58,7 @@ class DatabaseHelper {
       CREATE TABLE pets (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nome TEXT NOT NULL,
-        casa TEXT NOT NULL,
+        idade TEXT NOT NULL,
         dono_id INTEGER NOT NULL,
         FOREIGN KEY(dono_id) REFERENCES usuarios(id)
       )
@@ -126,12 +126,12 @@ class DatabaseHelper {
     return token;
   }
 
-  Future<int> inserirPet(String nome, String casa, int donoId) async {
+  Future<int> inserirPet(String nome, String idade, int donoId) async {
   final db = await database;
 
   return await db.insert('pets', {
     'nome': nome,
-    'casa': casa,
+    'idade': idade,
     'dono_id': donoId,
   });
 }
@@ -142,8 +142,25 @@ Future<List<Map<String, dynamic>>> buscarPetsDoUsuario(int donoId) async {
     'pets',
     where: 'dono_id = ?',
     whereArgs: [donoId],
+    columns: ['nome', 'idade'],
   );
 }
+
+  Future<List<Map<String, dynamic>>> buscarPetsComDonos() async {
+    final db = await database;
+
+    return await db.rawQuery('''
+      SELECT 
+        pets.nome AS nome_pet,
+        pets.idade,
+        usuarios.nome AS nome_dono,
+        moradores.casa AS casa_dono
+      FROM pets
+      JOIN usuarios ON pets.dono_id = usuarios.id
+      JOIN moradores ON moradores.usuario_id = usuarios.id
+    ''');
+  }
+
 
 
   Future<bool> redefinirSenha(String token, String novaSenha) async {
