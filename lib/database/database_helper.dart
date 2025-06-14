@@ -64,6 +64,15 @@ class DatabaseHelper {
       )
     ''');
 
+    await db.execute('''
+      CREATE TABLE comunicados (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        titulo TEXT NOT NULL,
+        descricao TEXT NOT NULL,
+        data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    ''');
+
     // Usuários de teste
     await db.insert('usuarios', {
       'nome': 'Joao',
@@ -74,6 +83,58 @@ class DatabaseHelper {
     });
 
   }
+
+//COMUNICADOS----------------------------------------------------------------------------
+  Future<int> inserirComunicado(String titulo, String descricao) async {
+    final db = await database;
+
+    return await db.insert('comunicados', {
+      'titulo': titulo,
+      'descricao': descricao,
+    });
+  }
+
+  Future<List<Map<String, dynamic>>> listarComunicados() async {
+  final db = await database;
+
+  return await db.query(
+    'comunicados',
+    orderBy: 'data_criacao DESC'
+  );
+  }
+//---------------------------------------------------------------------------------------
+
+
+//Funcionário----------------------------------------------------------------------------
+  Future<void> inserirFuncionario(int usuarioId, String cargo) async {
+    final db = await database;
+    await db.insert('funcionarios', {
+      'usuario_id': usuarioId,
+      'cargo': cargo,
+    });
+  }
+
+  Future<List<Map<String, dynamic>>> buscarTodosFuncionarios() async {
+  final db = await database;
+  return await db.rawQuery('''
+    SELECT u.id AS usuario_id, u.nome, u.email, f.cargo
+    FROM usuarios u
+    INNER JOIN funcionarios f ON u.id = f.usuario_id
+    ORDER BY u.nome
+  ''');
+}
+
+Future<void> deletarFuncionario(int usuarioId) async {
+  final db = await database;
+
+  // Remove primeiro da tabela funcionarios (por causa da chave estrangeira)
+  await db.delete('funcionarios', where: 'usuario_id = ?', whereArgs: [usuarioId]);
+
+  // Depois remove da tabela usuarios
+  await db.delete('usuarios', where: 'id = ?', whereArgs: [usuarioId]);
+}
+
+//---------------------------------------------------------------------------------------
 
 
 

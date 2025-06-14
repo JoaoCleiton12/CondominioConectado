@@ -1,5 +1,8 @@
 import 'package:condomonioconectado/pages/Usuario/Morador/cadastrar_pet_page.dart';
-import 'package:condomonioconectado/pages/Usuario/Sindico/options/ListarPets/listar_pets_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Sindico/options/cadastrar_funcionario_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Sindico/options/Comunicados/cadastrar_comunicado_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Sindico/options/Comunicados/listar_comunicados_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Sindico/options/listar_pets_page.dart';
 import 'package:flutter/material.dart';
 import 'login_page.dart'; 
 import 'Sindico/options/cadastroMorador/cadastrar_morador_page.dart'; 
@@ -12,11 +15,11 @@ class HomePage extends StatelessWidget {
   List<String> _obterOpcoes(String tipoUsuario) {
     switch (tipoUsuario) {
       case 'morador':
-        return ['Opção 1', 'Opção 2', 'Opção 3', 'Opção 4', 'Cadastrar Pet'];
+        return ['Opção 1', 'Comunicados', 'Opção 3', 'Opção 4', 'Cadastrar Pet'];
       case 'funcionario':
-        return ['Opção 1', 'Opção 2', 'Opção 3', 'Opção 4', 'Opção 5', 'Opção 6', 'Opção 7', 'Opção 8'];
+        return ['Comunicados', 'Opção 2', 'Opção 3', 'Opção 4', 'Opção 5', 'Opção 6', 'Opção 7', 'Opção 8'];
       case 'sindico':
-        return ['Morador', 'Listar Pets', 'Opção 3', 'Opção 4', 'Opção 5', 'Opção 6'];
+        return ['Morador', 'Listar Pets', 'Cadastrar Comunicado', 'Comunicados', 'Funcionario', 'Opção 6'];
       default:
         return ['Opção 1']; // padrão para tipos desconhecidos
     }
@@ -85,6 +88,24 @@ class HomePage extends StatelessWidget {
                         MaterialPageRoute(builder: (_) => const ListarPetsPage()),
                       );
                     }
+                    if (opcao == 'Cadastrar Comunicado' && tipoUsuario == 'sindico') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const CadastrarComunicadoPage()),
+                      );
+                    }
+                    if (opcao == 'Comunicados') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const ListarComunicadosPage()),
+                      );
+                    }
+                    if (opcao == 'Funcionario') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const CadastrarFuncionarioPage()),
+                      );
+                    }
                     else {
                       print("$opcao selecionada");
                     }
@@ -123,7 +144,46 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ],
                               )
-                            : Text(
+                        : (opcao == 'Cadastrar Comunicado' && tipoUsuario == 'sindico')
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(Icons.announcement, color: Colors.white, size: 60),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Cadastrar Comunicado',
+                                    style: TextStyle(color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              )
+                        : (opcao == 'Comunicados')
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(Icons.announcement, color: Colors.white, size: 60),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Comunicados',
+                                    style: TextStyle(color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              )
+                        : (opcao == 'Funcionario')
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(Icons.badge, color: Colors.white, size: 60),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Funcionario',
+                                    style: TextStyle(color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              )
+                        :  Text(
                                 opcao,
                                 style: const TextStyle(color: Colors.white),
                                 textAlign: TextAlign.center,
