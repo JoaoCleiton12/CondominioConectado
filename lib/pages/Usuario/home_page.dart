@@ -1,13 +1,13 @@
-import 'package:condomonioconectado/pages/Usuario/Morador/cadastrar_pet_page.dart';
-import 'package:condomonioconectado/pages/Usuario/Morador/cadastrar_visitantes_page.dart';
-import 'package:condomonioconectado/pages/Usuario/Morador/listar_visitantes_page.dart';
-import 'package:condomonioconectado/pages/Usuario/Morador/registrar_visitante_page.dart';
-import 'package:condomonioconectado/pages/Usuario/Sindico/options/cadastrar_funcionario_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Morador/options/Pets/cadastrar_pet_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Morador/options/Visitantes/cadastrar_visitantes_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Morador/options/Visitantes/listar_visitantes_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Morador/options/Visitantes/registrar_visitante_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Sindico/options/Funcionarios/cadastrar_funcionario_page.dart';
 import 'package:condomonioconectado/pages/Usuario/Sindico/options/Comunicados/cadastrar_comunicado_page.dart';
 import 'package:condomonioconectado/pages/Usuario/Sindico/options/Comunicados/listar_comunicados_page.dart';
-import 'package:condomonioconectado/pages/Usuario/Sindico/options/listar_pets_page.dart';
-import 'package:condomonioconectado/pages/Usuario/Sindico/options/listar_reservas_page.dart';
-import 'package:condomonioconectado/pages/Usuario/Sindico/options/reservar_area_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Sindico/options/Pets/listar_pets_page.dart';
+import 'package:condomonioconectado/pages/Usuario/options/listar_reservas_page.dart';
+import 'package:condomonioconectado/pages/Usuario/options/reservar_area_page.dart';
 import 'package:flutter/material.dart';
 import 'login_page.dart'; 
 import 'Sindico/options/cadastroMorador/cadastrar_morador_page.dart'; 
@@ -20,11 +20,11 @@ class HomePage extends StatelessWidget {
   List<String> _obterOpcoes(String tipoUsuario) {
     switch (tipoUsuario) {
       case 'morador':
-        return ['Area de Lazer', 'Comunicados', 'Opção 3', 'Opção 4', 'Cadastrar Pet', 'Cadastrar Visitante', 'Registrar Visita'];
+        return ['Area de Lazer', 'Cadastrar Pet', 'Cadastrar Visitante', 'Comunicados', 'Registrar Visita'];
       case 'funcionario':
-        return ['Comunicados', 'Reservas', 'Visitantes', 'Opção 4', 'Opção 5', 'Opção 6', 'Opção 7', 'Opção 8'];
+        return ['Comunicados', 'Reservas', 'Visitantes'];
       case 'sindico':
-        return ['Morador', 'Listar Pets', 'Cadastrar Comunicado', 'Comunicados', 'Funcionario', 'Reservas'];
+        return ['Cadastrar Comunicado', 'Comunicados', 'Funcionario', 'Listar Pets', 'Morador', 'Reservas'];
       default:
         return ['Opção 1']; // padrão para tipos desconhecidos
     }
@@ -75,65 +75,54 @@ class HomePage extends StatelessWidget {
                 final opcao = opcoes[index];
                 return ElevatedButton(
                   onPressed: () {
-                    if (opcao == 'Morador' && tipoUsuario == 'sindico') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const CadastrarMoradorPage()),
-                      ); 
-                    }
-                    if (opcao == 'Cadastrar Pet' && tipoUsuario == 'morador') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const CadastrarPetPage()),
-                      );
-                    }
-                    if (opcao == 'Reservas' && tipoUsuario == 'sindico') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const ListarReservasPage()),
-                      );
-                    } 
-                    if (opcao == 'Listar Pets' && tipoUsuario == 'sindico') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const ListarPetsPage()),
-                      );
-                    }
-                    if (opcao == 'Registrar Visita' && tipoUsuario == 'morador') {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => const RegistrarVisitaPage()));
-                    }
-
+                    //Opções do sindico--------------------------------------------------------------------------------
                     if (opcao == 'Cadastrar Comunicado' && tipoUsuario == 'sindico') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const CadastrarComunicadoPage()),
-                      );
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const CadastrarComunicadoPage()));
                     }
-                    if (opcao == 'Comunicados') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const ListarComunicadosPage()),
-                      );
+                    if (opcao == 'Funcionario' && tipoUsuario == 'sindico') {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const CadastrarFuncionarioPage()));
                     }
-                    if (opcao == 'Area de Lazer') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const ReservarAreaPage()),
-                      );
+                    if (opcao == 'Listar Pets' && tipoUsuario == 'sindico') {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const ListarPetsPage()));
+                    }
+                    if (opcao == 'Morador' && tipoUsuario == 'sindico') {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const CadastrarMoradorPage())); 
+                    } 
+                    //-------------------------------------------------------------------------------------------------
+
+
+                    //Opções do morador--------------------------------------------------------------------------------
+                    if (opcao == 'Cadastrar Pet' && tipoUsuario == 'morador') {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const CadastrarPetPage()));
                     }
                     if (opcao == 'Cadastrar Visitante' && tipoUsuario == 'morador') {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const CadastrarVisitantePage()));
                     }
+                    if (opcao == 'Registrar Visita' && tipoUsuario == 'morador') {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const RegistrarVisitaPage()));
+                    }
+                    //-------------------------------------------------------------------------------------------------
 
+
+                    //Opções do funcionário----------------------------------------------------------------------------
                     if (opcao == 'Visitantes' && tipoUsuario == 'funcionario') {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const ListarVisitantesPage()));
                     }
-                    if (opcao == 'Funcionario') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const CadastrarFuncionarioPage()),
-                      );
+                    //-------------------------------------------------------------------------------------------------
+
+
+                    //Opções para mais de um usuário-------------------------------------------------------------------
+                    if (opcao == 'Reservas') {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const ListarReservasPage()));
+                    } 
+                    if (opcao == 'Comunicados') {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const ListarComunicadosPage()));
                     }
+                    if (opcao == 'Area de Lazer') {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const ReservarAreaPage()));
+                    }
+                    //-------------------------------------------------------------------------------------------------
+
                     else {
                       print("$opcao selecionada");
                     }
@@ -146,32 +135,8 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   child: Center(
-                    child: (opcao == 'Morador' && tipoUsuario == 'sindico')
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Icon(Icons.person_add, color: Colors.white, size: 60),
-                              SizedBox(height: 8),
-                              Text(
-                                'Morador',
-                                style: TextStyle(color: Colors.white),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          )
-                        : (opcao == 'Listar Pets' && tipoUsuario == 'sindico')
-                            ? Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  Icon(Icons.pets, color: Colors.white, size: 60),
-                                  SizedBox(height: 8),
-                                  Text(
-                                    'Listar Pets',
-                                    style: TextStyle(color: Colors.white),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
-                              )
+                    child
+                    //Opções do síndico-----------------------------------------------------------------------------------------------------
                         : (opcao == 'Cadastrar Comunicado' && tipoUsuario == 'sindico')
                             ? Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -185,19 +150,75 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ],
                               )
-                        : (opcao == 'Reservas' && tipoUsuario == 'sindico')
+                        : (opcao == 'Funcionario' && tipoUsuario == 'sindico')
                             ? Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: const [
-                                  Icon(Icons.calendar_month, color: Colors.white, size: 60),
+                                  Icon(Icons.badge, color: Colors.white, size: 60),
                                   SizedBox(height: 8),
                                   Text(
-                                    'Reservas',
+                                    'Funcionario',
                                     style: TextStyle(color: Colors.white),
                                     textAlign: TextAlign.center,
                                   ),
                                 ],
                               )
+                        : (opcao == 'Listar Pets' && tipoUsuario == 'sindico')
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(Icons.pets, color: Colors.white, size: 60),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Listar Pets',
+                                    style: TextStyle(color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              )
+                        : (opcao == 'Morador' && tipoUsuario == 'sindico')
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(Icons.person_add, color: Colors.white, size: 60),
+                              SizedBox(height: 8),
+                              Text(
+                                'Morador',
+                                style: TextStyle(color: Colors.white),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          )
+                        //------------------------------------------------------------------------------------------------------------------
+                        
+
+                        //Opções do morador-------------------------------------------------------------------------------------------------
+                        : (opcao == 'Cadastrar Pet' && tipoUsuario == 'morador')
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(Icons.pets, color: Colors.white, size: 60),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Cadastrar Pet',
+                                    style: TextStyle(color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              )
+                        : (opcao == 'Cadastrar Visitante' && tipoUsuario == 'morador')
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(Icons.person_add, color: Colors.white, size: 60),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Cadastrar Visitante',
+                                    style: TextStyle(color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ) 
                         : (opcao == 'Registrar Visita' && tipoUsuario == 'morador')
                             ? Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -206,33 +227,11 @@ class HomePage extends StatelessWidget {
                                   SizedBox(height: 8),
                                   Text('Registrar Visita', style: TextStyle(color: Colors.white), textAlign: TextAlign.center),
                                 ],
-                              )      
-                        : (opcao == 'Comunicados')
-                            ? Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  Icon(Icons.announcement, color: Colors.white, size: 60),
-                                  SizedBox(height: 8),
-                                  Text(
-                                    'Comunicados',
-                                    style: TextStyle(color: Colors.white),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
                               )
-                        : (opcao == 'Area de Lazer')
-                            ? Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  Icon(Icons.announcement, color: Colors.white, size: 60),
-                                  SizedBox(height: 8),
-                                  Text(
-                                    'Area de Lazer',
-                                    style: TextStyle(color: Colors.white),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
-                              )
+                        //------------------------------------------------------------------------------------------------------------------
+
+
+                        //Opções do funcionário---------------------------------------------------------------------------------------------
                         :(opcao == 'Visitantes' && tipoUsuario == 'funcionario')
                             ? Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -246,19 +245,50 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ],
                               )
-                        : (opcao == 'Funcionario')
+                        //------------------------------------------------------------------------------------------------------------------
+
+
+                        //Opções para mais de um usuário------------------------------------------------------------------------------------    
+                        : (opcao == 'Comunicados')
                             ? Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: const [
-                                  Icon(Icons.badge, color: Colors.white, size: 60),
+                                  Icon(Icons.announcement, color: Colors.white, size: 60),
                                   SizedBox(height: 8),
                                   Text(
-                                    'Funcionario',
+                                    'Comunicados',
                                     style: TextStyle(color: Colors.white),
                                     textAlign: TextAlign.center,
                                   ),
                                 ],
                               )
+                        : (opcao == 'Reservas')
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(Icons.calendar_month, color: Colors.white, size: 60),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Reservas',
+                                    style: TextStyle(color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              )
+                        : (opcao == 'Area de Lazer')
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(Icons.calendar_month, color: Colors.white, size: 60),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Area de Lazer',
+                                    style: TextStyle(color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              )
+                        //------------------------------------------------------------------------------------------------------------------
                         :  Text(
                                 opcao,
                                 style: const TextStyle(color: Colors.white),

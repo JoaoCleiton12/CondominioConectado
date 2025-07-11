@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../database/database_helper.dart'; // ajuste o caminho conforme sua estrutura
+import '../../../database/database_helper.dart'; // ajuste o caminho conforme sua estrutura
 
 class RedefinirSenhaPage extends StatefulWidget {
   const RedefinirSenhaPage({super.key});

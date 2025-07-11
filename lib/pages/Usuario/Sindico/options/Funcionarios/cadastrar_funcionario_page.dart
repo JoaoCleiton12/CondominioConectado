@@ -1,5 +1,5 @@
 import 'package:condomonioconectado/database/database_helper.dart';
-import 'package:condomonioconectado/pages/Usuario/Sindico/listar_funcionarios_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Sindico/options/Funcionarios/listar_funcionarios_page.dart';
 import 'package:flutter/material.dart';
 
 class CadastrarFuncionarioPage extends StatefulWidget {
