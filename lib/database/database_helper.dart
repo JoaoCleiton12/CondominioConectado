@@ -99,9 +99,11 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         visitante_id INTEGER NOT NULL,
         data_visita TEXT NOT NULL,
+        presenca INTEGER DEFAULT 0,
         FOREIGN KEY(visitante_id) REFERENCES visitantes(id)
       )
     ''');
+
 
 
     // Usuários de teste
@@ -142,15 +144,17 @@ Future<int> inserirVisitante(Map<String, dynamic> visitante) async {
   return await db.insert('visitantes', visitante);
 }
 
+
 Future<List<Map<String, dynamic>>> buscarTodosVisitantesComMorador() async {
   final db = await database;
   return await db.rawQuery('''
-    SELECT v.nome AS nome_visitante, v.idade, u.nome AS nome_morador
+    SELECT v.id, v.nome AS nome_visitante, v.idade, u.nome AS nome_morador
     FROM visitantes v
     JOIN usuarios u ON v.morador_id = u.id
     ORDER BY v.nome
   ''');
 }
+
 
 
 Future<int> registrarVisita(Map<String, dynamic> visita) async {
@@ -166,6 +170,27 @@ Future<List<Map<String, dynamic>>> buscarVisitantesDoMorador(int moradorId) asyn
     whereArgs: [moradorId],
   );
 }
+
+
+Future<List<Map<String, dynamic>>> buscarVisitasPorVisitante(int visitanteId) async {
+  final db = await database;
+  return await db.query(
+    'visitas',
+    where: 'visitante_id = ?',
+    whereArgs: [visitanteId],
+  );
+}
+
+Future<int> registrarPresenca(int visitaId) async {
+  final db = await database;
+  return await db.update(
+    'visitas',
+    {'presenca': 1},
+    where: 'id = ?',
+    whereArgs: [visitaId],
+  );
+}
+
 
 //AREA DE LAZER--------------------------------------------------------------------------
 Future<int> inserirReserva(Map<String, dynamic> reserva) async {

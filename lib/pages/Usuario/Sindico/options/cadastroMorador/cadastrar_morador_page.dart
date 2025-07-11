@@ -128,7 +128,17 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cadastrar Morador'),
+        centerTitle: true,
+          title: const Text(
+            'Cadastrar Morador',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              letterSpacing: 1.2,
+            ),
+          ),
         backgroundColor: const Color.fromARGB(255, 61, 96, 178),
       ),
       body: Padding(

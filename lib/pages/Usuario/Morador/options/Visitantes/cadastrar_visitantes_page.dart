@@ -52,7 +52,18 @@ class _CadastrarVisitantePageState extends State<CadastrarVisitantePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cadastrar Visitante'),
+        centerTitle: true,
+          title: const Text(
+            'Cadastrar Visitante',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              letterSpacing: 1.2,
+            ),
+          ),
+
         backgroundColor: const Color.fromARGB(255, 61, 96, 178),
       ),
       body: Padding(
@@ -82,7 +93,9 @@ class _CadastrarVisitantePageState extends State<CadastrarVisitantePage> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _cadastrarVisitante,
-                child: const Text('Cadastrar'),
+                child: const Text('Cadastrar',
+                style: TextStyle(color: Color.fromARGB(255, 61, 96, 178), fontWeight: FontWeight.bold,),
+                ),
               ),
             ],
           ),

@@ -75,7 +75,17 @@ void _reservar() async {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Reservar Espaço Comum'),
+        centerTitle: true,
+          title: const Text(
+            'Reservar Espaço',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              letterSpacing: 1.2,
+            ),
+          ),
         backgroundColor: const Color.fromARGB(255, 61, 96, 178),
       ),
       body: Padding(
@@ -128,7 +138,8 @@ void _reservar() async {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _reservar,
-                child: const Text('Reservar'),
+                child: const Text('Reservar', style: TextStyle(color: Color.fromARGB(255, 61, 96, 178), fontWeight: FontWeight.bold,)
+                ,) ,
               ),
             ],
           ),

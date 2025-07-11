@@ -21,7 +21,17 @@ class _ListarPetsPageState extends State<ListarPetsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lista de Pets'),
+        centerTitle: true,
+          title: const Text(
+            'Lista de Pets',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              letterSpacing: 1.2,
+            ),
+          ),
         backgroundColor: const Color.fromARGB(255, 61, 96, 178),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(

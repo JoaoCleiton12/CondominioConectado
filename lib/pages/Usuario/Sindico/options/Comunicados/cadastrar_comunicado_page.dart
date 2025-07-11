@@ -34,7 +34,17 @@ class _CadastrarComunicadoPageState extends State<CadastrarComunicadoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cadastrar Comunicado'),
+        centerTitle: true,
+          title: const Text(
+            'Cadastrar Comunicado',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              letterSpacing: 1.2,
+            ),
+          ),
         backgroundColor: const Color.fromARGB(255, 61, 96, 178),
       ),
       body: Padding(
@@ -55,10 +65,11 @@ class _CadastrarComunicadoPageState extends State<CadastrarComunicadoPage> {
                 validator: (value) => value == null || value.isEmpty ? 'Campo obrigatório' : null,
               ),
               const SizedBox(height: 20),
-              FilledButton.icon(
+              ElevatedButton(
                 onPressed: _cadastrarComunicado,
-                icon: const Icon(Icons.send),
-                label: const Text('Publicar Comunicado'),
+                child: const Text('Publicar Comunicado',
+                style: TextStyle(color: Color.fromARGB(255, 61, 96, 178), fontWeight: FontWeight.bold,),
+                ),
               ),
             ],
           ),

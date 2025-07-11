@@ -1,6 +1,6 @@
 import 'package:condomonioconectado/pages/Usuario/Morador/options/Pets/cadastrar_pet_page.dart';
 import 'package:condomonioconectado/pages/Usuario/Morador/options/Visitantes/cadastrar_visitantes_page.dart';
-import 'package:condomonioconectado/pages/Usuario/Morador/options/Visitantes/listar_visitantes_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Funcionario/options/listar_visitantes_page.dart';
 import 'package:condomonioconectado/pages/Usuario/Morador/options/Visitantes/registrar_visitante_page.dart';
 import 'package:condomonioconectado/pages/Usuario/Sindico/options/Funcionarios/cadastrar_funcionario_page.dart';
 import 'package:condomonioconectado/pages/Usuario/Sindico/options/Comunicados/cadastrar_comunicado_page.dart';
@@ -37,29 +37,46 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 61, 96, 178),
-        title: const Text('Condomínio Conectado'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Sair',
-            onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (_) => const LoginPage()),
-                (route) => false,
-              );
-            },
-          ),
-        ],
+  backgroundColor: const Color.fromARGB(255, 61, 96, 178),
+  centerTitle: true,
+  title: Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    mainAxisSize: MainAxisSize.min,
+    children: const [
+      Icon(Icons.apartment, color: Colors.white),
+      SizedBox(width: 8),
+      Text(
+        'Condomínio Conectado',
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+          letterSpacing: 1.2,
+        ),
       ),
+    ],
+  ),
+  actions: [
+    IconButton(
+      icon: const Icon(Icons.logout),
+      tooltip: 'Sair',
+      onPressed: () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const LoginPage()),
+          (route) => false,
+        );
+      },
+    ),
+  ],
+),
+
       body: Column(
         children: [
           const SizedBox(height: 20),
           Text(
             'Bem-vindo, ${usuario['nome']}!',
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: const TextStyle(color: Color.fromARGB(255, 61, 96, 178), fontSize: 24, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 20),
           Expanded(

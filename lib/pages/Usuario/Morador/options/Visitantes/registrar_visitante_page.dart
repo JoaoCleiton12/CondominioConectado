@@ -14,7 +14,7 @@ class _RegistrarVisitaPageState extends State<RegistrarVisitaPage> {
   final _formKey = GlobalKey<FormState>();
 
   List<Map<String, dynamic>> _visitantes = [];
-  Map<String, dynamic>? _visitanteSelecionado;
+  int? _visitanteIdSelecionado;
   DateTime? _dataSelecionada;
 
   @override
@@ -49,7 +49,7 @@ class _RegistrarVisitaPageState extends State<RegistrarVisitaPage> {
   }
 
   void _registrar() async {
-    if (_visitanteSelecionado == null || _dataSelecionada == null) {
+    if (_visitanteIdSelecionado == null || _dataSelecionada == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Selecione visitante e data')),
       );
@@ -57,7 +57,7 @@ class _RegistrarVisitaPageState extends State<RegistrarVisitaPage> {
     }
 
     final visita = {
-      'visitante_id': _visitanteSelecionado!['id'],
+      'visitante_id': _visitanteIdSelecionado,
       'data_visita': _dataSelecionada!.toIso8601String().split('T').first,
     };
 
@@ -67,7 +67,7 @@ class _RegistrarVisitaPageState extends State<RegistrarVisitaPage> {
         const SnackBar(content: Text('Visita registrada com sucesso!')),
       );
       setState(() {
-        _visitanteSelecionado = null;
+        _visitanteIdSelecionado = null;
         _dataSelecionada = null;
       });
     } catch (e) {
@@ -81,7 +81,17 @@ class _RegistrarVisitaPageState extends State<RegistrarVisitaPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Registrar Visita'),
+       centerTitle: true,
+          title: const Text(
+            'Registrar Visita',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              letterSpacing: 1.2,
+            ),
+          ),
         backgroundColor: const Color.fromARGB(255, 61, 96, 178),
       ),
       body: Padding(
@@ -90,17 +100,17 @@ class _RegistrarVisitaPageState extends State<RegistrarVisitaPage> {
           key: _formKey,
           child: ListView(
             children: [
-              DropdownButtonFormField<Map<String, dynamic>>(
-                value: _visitanteSelecionado,
+              DropdownButtonFormField<int>(
+                value: _visitanteIdSelecionado,
                 items: _visitantes.map((v) {
-                  return DropdownMenuItem(
-                    value: v,
+                  return DropdownMenuItem<int>(
+                    value: v['id'],
                     child: Text('${v['nome']} (idade: ${v['idade']})'),
                   );
                 }).toList(),
                 onChanged: (value) {
                   setState(() {
-                    _visitanteSelecionado = value;
+                    _visitanteIdSelecionado = value;
                   });
                 },
                 decoration: const InputDecoration(labelText: 'Visitante'),
@@ -120,7 +130,8 @@ class _RegistrarVisitaPageState extends State<RegistrarVisitaPage> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _registrar,
-                child: const Text('Registrar Visita'),
+                child: const Text('Registrar Visita', style: TextStyle(color: Color.fromARGB(255, 61, 96, 178), fontWeight: FontWeight.bold,),
+                ),
               ),
             ],
           ),

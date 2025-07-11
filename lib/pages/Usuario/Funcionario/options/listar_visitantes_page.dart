@@ -1,3 +1,4 @@
+import 'package:condomonioconectado/pages/Usuario/Funcionario/options/detalhes_visitante_page.dart';
 import 'package:flutter/material.dart';
 import 'package:condomonioconectado/database/database_helper.dart';
 
@@ -35,7 +36,17 @@ class _ListarVisitantesPageState extends State<ListarVisitantesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Visitantes Cadastrados'),
+        centerTitle: true,
+          title: const Text(
+            'Visitantes Cadastrados',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              letterSpacing: 1.2,
+            ),
+          ),
         backgroundColor: const Color.fromARGB(255, 61, 96, 178),
       ),
       body: _visitantes.isEmpty
@@ -50,6 +61,17 @@ class _ListarVisitantesPageState extends State<ListarVisitantesPage> {
                     leading: const Icon(Icons.person),
                     title: Text(visitante['nome_visitante']),
                     subtitle: Text('Idade: ${visitante['idade']} | Morador: ${visitante['nome_morador']}'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => DetalhesVisitantePage(
+                            visitanteId: visitante['id'],
+                            nomeVisitante: visitante['nome_visitante'],
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 );
               },

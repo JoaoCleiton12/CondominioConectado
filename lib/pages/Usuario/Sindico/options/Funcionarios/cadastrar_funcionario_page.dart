@@ -83,7 +83,17 @@ class _CadastrarFuncionarioPageState extends State<CadastrarFuncionarioPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cadastrar Funcionário'),
+        centerTitle: true,
+          title: const Text(
+            'Cadastrar Funcionário',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              letterSpacing: 1.2,
+            ),
+          ),
         backgroundColor: const Color.fromARGB(255, 61, 96, 178),
       ),
       body: Padding(
@@ -162,7 +172,9 @@ class _CadastrarFuncionarioPageState extends State<CadastrarFuncionarioPage> {
                 onPressed: _carregando ? null : _cadastrarFuncionario,
                 child: _carregando
                     ? const CircularProgressIndicator()
-                    : const Text('Adicionar'),
+                    : const Text('Adicionar',
+                    style: TextStyle(color: Color.fromARGB(255, 61, 96, 178), fontWeight: FontWeight.bold,),
+                    ),
               ),
               const SizedBox(height: 10),
               ElevatedButton.icon(

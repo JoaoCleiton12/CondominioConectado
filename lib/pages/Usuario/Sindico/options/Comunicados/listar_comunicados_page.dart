@@ -27,7 +27,17 @@ class _ListarComunicadosPageState extends State<ListarComunicadosPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Comunicados'),
+        centerTitle: true,
+          title: const Text(
+            'Comunicados',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              letterSpacing: 1.2,
+            ),
+          ),
         backgroundColor: const Color.fromARGB(255, 61, 96, 178),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(

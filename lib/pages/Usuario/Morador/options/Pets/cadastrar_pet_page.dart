@@ -46,7 +46,17 @@ class _CadastrarPetPageState extends State<CadastrarPetPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cadastrar Pet'),
+        centerTitle: true,
+          title: const Text(
+            'Cadastrar Pet',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              letterSpacing: 1.2,
+            ),
+          ),
         backgroundColor: const Color.fromARGB(255, 61, 96, 178),
       ),
       body: Padding(
@@ -69,10 +79,11 @@ class _CadastrarPetPageState extends State<CadastrarPetPage> {
                     value == null || value.isEmpty ? 'Campo idade vazio' : null,
               ),
               const SizedBox(height: 10),
-              FilledButton.icon(
+              ElevatedButton(
                 onPressed: _cadastrarPet,
-                icon: const Icon(Icons.add),
-                label: const Text("Cadastrar Pet"),
+                child: const Text('Cadastrar Pet',
+                style: TextStyle(color: Color.fromARGB(255, 61, 96, 178), fontWeight: FontWeight.bold,),
+                ),
               ),
               const SizedBox(height: 10),
               TextButton.icon(
@@ -129,8 +140,12 @@ class _CadastrarPetPageState extends State<CadastrarPetPage> {
                     );
                   }
                 },
-                icon: const Icon(Icons.pets),
-                label: const Text('Listar seus pets'),
+                icon: const Icon(Icons.list),
+                label: const Text('Listar Pets'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey[700],
+                  foregroundColor: Colors.white,
+                ),
               ),
             ],
           ),
