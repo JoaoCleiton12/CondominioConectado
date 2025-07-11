@@ -73,6 +73,37 @@ class DatabaseHelper {
       )
     ''');
 
+    await db.execute('''
+    CREATE TABLE IF NOT EXISTS visitantes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nome TEXT NOT NULL,
+      idade INTEGER NOT NULL,
+      morador_id INTEGER NOT NULL,
+      FOREIGN KEY(morador_id) REFERENCES usuarios(id)
+    );
+  ''');
+
+    await db.execute('''
+      CREATE TABLE reservas (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        area TEXT NOT NULL,
+        data TEXT NOT NULL,       -- formato ISO YYYY‑MM‑DD
+        turno TEXT NOT NULL,      -- "manhã", "tarde", "noite"
+        usuario_id INTEGER NOT NULL,
+        FOREIGN KEY(usuario_id) REFERENCES usuarios(id)
+      )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS visitas (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        visitante_id INTEGER NOT NULL,
+        data_visita TEXT NOT NULL,
+        FOREIGN KEY(visitante_id) REFERENCES visitantes(id)
+      )
+    ''');
+
+
     // Usuários de teste
     await db.insert('usuarios', {
       'nome': 'Joao',
@@ -82,6 +113,7 @@ class DatabaseHelper {
       'tipo_usuario': 'sindico',
     });
 
+    
   }
 
 //COMUNICADOS----------------------------------------------------------------------------
@@ -102,6 +134,76 @@ class DatabaseHelper {
     orderBy: 'data_criacao DESC'
   );
   }
+//---------------------------------------------------------------------------------------
+
+
+Future<int> inserirVisitante(Map<String, dynamic> visitante) async {
+  final db = await database;
+  return await db.insert('visitantes', visitante);
+}
+
+Future<List<Map<String, dynamic>>> buscarTodosVisitantesComMorador() async {
+  final db = await database;
+  return await db.rawQuery('''
+    SELECT v.nome AS nome_visitante, v.idade, u.nome AS nome_morador
+    FROM visitantes v
+    JOIN usuarios u ON v.morador_id = u.id
+    ORDER BY v.nome
+  ''');
+}
+
+
+Future<int> registrarVisita(Map<String, dynamic> visita) async {
+  final db = await database;
+  return await db.insert('visitas', visita);
+}
+
+Future<List<Map<String, dynamic>>> buscarVisitantesDoMorador(int moradorId) async {
+  final db = await database;
+  return await db.query(
+    'visitantes',
+    where: 'morador_id = ?',
+    whereArgs: [moradorId],
+  );
+}
+
+//AREA DE LAZER--------------------------------------------------------------------------
+Future<int> inserirReserva(Map<String, dynamic> reserva) async {
+  final db = await database;
+  return await db.insert('reservas', reserva);
+}
+
+Future<List<Map<String, dynamic>>> buscarReservasPorArea(
+    String area, String data, String turno) async {
+  final db = await database;
+  return await db.query(
+    'reservas',
+    where: 'area = ? AND data = ? AND turno = ?',
+    whereArgs: [area, data, turno],
+  );
+}
+
+Future<List<Map<String, dynamic>>> buscarTodasReservasPorArea(String area) async {
+  final db = await database;
+  return await db.query('reservas',
+      where: 'area = ?', whereArgs: [area]);
+}
+
+Future<List<Map<String, dynamic>>> buscarTodasReservasComUsuarios() async {
+  final db = await database;
+  return await db.rawQuery('''
+    SELECT r.id, r.area, r.data, r.turno, u.nome
+    FROM reservas r
+    JOIN usuarios u ON r.usuario_id = u.id
+    ORDER BY r.data DESC
+  ''');
+}
+
+
+Future<int> cancelarReserva(int id) async {
+  final db = await database;
+  return await db.delete('reservas', where: 'id = ?', whereArgs: [id]);
+}
 //---------------------------------------------------------------------------------------
 
 
@@ -137,7 +239,7 @@ Future<void> deletarFuncionario(int usuarioId) async {
 //---------------------------------------------------------------------------------------
 
 
-
+//Funcionário----------------------------------------------------------------------------
   // INSERIR USUARIO, RETORNANDO O ID GERADO
   Future<int> inserirUsuario(Map<String, dynamic> usuario) async {
     final db = await database;
@@ -187,6 +289,7 @@ Future<void> deletarFuncionario(int usuarioId) async {
     return token;
   }
 
+//Pets-----------------------------------------------------------------------------------
   Future<int> inserirPet(String nome, String idade, int donoId) async {
   final db = await database;
 
@@ -221,7 +324,7 @@ Future<List<Map<String, dynamic>>> buscarPetsDoUsuario(int donoId) async {
       JOIN moradores ON moradores.usuario_id = usuarios.id
     ''');
   }
-
+//---------------------------------------------------------------------------------------
 
 
   Future<bool> redefinirSenha(String token, String novaSenha) async {

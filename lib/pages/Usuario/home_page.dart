@@ -1,8 +1,13 @@
 import 'package:condomonioconectado/pages/Usuario/Morador/cadastrar_pet_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Morador/cadastrar_visitantes_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Morador/listar_visitantes_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Morador/registrar_visitante_page.dart';
 import 'package:condomonioconectado/pages/Usuario/Sindico/options/cadastrar_funcionario_page.dart';
 import 'package:condomonioconectado/pages/Usuario/Sindico/options/Comunicados/cadastrar_comunicado_page.dart';
 import 'package:condomonioconectado/pages/Usuario/Sindico/options/Comunicados/listar_comunicados_page.dart';
 import 'package:condomonioconectado/pages/Usuario/Sindico/options/listar_pets_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Sindico/options/listar_reservas_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Sindico/options/reservar_area_page.dart';
 import 'package:flutter/material.dart';
 import 'login_page.dart'; 
 import 'Sindico/options/cadastroMorador/cadastrar_morador_page.dart'; 
@@ -15,11 +20,11 @@ class HomePage extends StatelessWidget {
   List<String> _obterOpcoes(String tipoUsuario) {
     switch (tipoUsuario) {
       case 'morador':
-        return ['Opção 1', 'Comunicados', 'Opção 3', 'Opção 4', 'Cadastrar Pet'];
+        return ['Area de Lazer', 'Comunicados', 'Opção 3', 'Opção 4', 'Cadastrar Pet', 'Cadastrar Visitante', 'Registrar Visita'];
       case 'funcionario':
-        return ['Comunicados', 'Opção 2', 'Opção 3', 'Opção 4', 'Opção 5', 'Opção 6', 'Opção 7', 'Opção 8'];
+        return ['Comunicados', 'Reservas', 'Visitantes', 'Opção 4', 'Opção 5', 'Opção 6', 'Opção 7', 'Opção 8'];
       case 'sindico':
-        return ['Morador', 'Listar Pets', 'Cadastrar Comunicado', 'Comunicados', 'Funcionario', 'Opção 6'];
+        return ['Morador', 'Listar Pets', 'Cadastrar Comunicado', 'Comunicados', 'Funcionario', 'Reservas'];
       default:
         return ['Opção 1']; // padrão para tipos desconhecidos
     }
@@ -81,6 +86,12 @@ class HomePage extends StatelessWidget {
                         context,
                         MaterialPageRoute(builder: (_) => const CadastrarPetPage()),
                       );
+                    }
+                    if (opcao == 'Reservas' && tipoUsuario == 'sindico') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const ListarReservasPage()),
+                      );
                     } 
                     if (opcao == 'Listar Pets' && tipoUsuario == 'sindico') {
                       Navigator.push(
@@ -88,6 +99,10 @@ class HomePage extends StatelessWidget {
                         MaterialPageRoute(builder: (_) => const ListarPetsPage()),
                       );
                     }
+                    if (opcao == 'Registrar Visita' && tipoUsuario == 'morador') {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const RegistrarVisitaPage()));
+                    }
+
                     if (opcao == 'Cadastrar Comunicado' && tipoUsuario == 'sindico') {
                       Navigator.push(
                         context,
@@ -99,6 +114,19 @@ class HomePage extends StatelessWidget {
                         context,
                         MaterialPageRoute(builder: (_) => const ListarComunicadosPage()),
                       );
+                    }
+                    if (opcao == 'Area de Lazer') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const ReservarAreaPage()),
+                      );
+                    }
+                    if (opcao == 'Cadastrar Visitante' && tipoUsuario == 'morador') {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const CadastrarVisitantePage()));
+                    }
+
+                    if (opcao == 'Visitantes' && tipoUsuario == 'funcionario') {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const ListarVisitantesPage()));
                     }
                     if (opcao == 'Funcionario') {
                       Navigator.push(
@@ -157,6 +185,28 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ],
                               )
+                        : (opcao == 'Reservas' && tipoUsuario == 'sindico')
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(Icons.calendar_month, color: Colors.white, size: 60),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Reservas',
+                                    style: TextStyle(color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              )
+                        : (opcao == 'Registrar Visita' && tipoUsuario == 'morador')
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(Icons.how_to_reg, color: Colors.white, size: 60),
+                                  SizedBox(height: 8),
+                                  Text('Registrar Visita', style: TextStyle(color: Colors.white), textAlign: TextAlign.center),
+                                ],
+                              )      
                         : (opcao == 'Comunicados')
                             ? Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -165,6 +215,32 @@ class HomePage extends StatelessWidget {
                                   SizedBox(height: 8),
                                   Text(
                                     'Comunicados',
+                                    style: TextStyle(color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              )
+                        : (opcao == 'Area de Lazer')
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(Icons.announcement, color: Colors.white, size: 60),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Area de Lazer',
+                                    style: TextStyle(color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              )
+                        :(opcao == 'Visitantes' && tipoUsuario == 'funcionario')
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(Icons.group, color: Colors.white, size: 60),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Visitantes',
                                     style: TextStyle(color: Colors.white),
                                     textAlign: TextAlign.center,
                                   ),
