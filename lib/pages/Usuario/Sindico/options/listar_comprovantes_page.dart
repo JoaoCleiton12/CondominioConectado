@@ -16,6 +16,9 @@ class _ListarComprovantesPageState extends State<ListarComprovantesPage> {
   List<Map<String, dynamic>> _comprovantes = [];
   bool _isLoading = true;
 
+  // COR DO TEMA DO SÍNDICO
+  final Color sindicoThemeColor = const Color.fromARGB(255, 34, 139, 34); // VERDE
+
   @override
   void initState() {
     super.initState();
@@ -60,10 +63,8 @@ class _ListarComprovantesPageState extends State<ListarComprovantesPage> {
                     children: [
                       const Text('Comprovante Anexado:', style: TextStyle(fontWeight: FontWeight.bold)),
                       const SizedBox(height: 5),
-                      // --- INÍCIO DA MODIFICAÇÃO PARA SER CLICÁVEL ---
-                      GestureDetector( // Permite que a imagem/ícone seja clicável
+                      GestureDetector(
                         onTap: () async {
-                          // Abre o arquivo com o visualizador padrão do sistema
                           final filePath = comprovante['caminho_arquivo'];
                           if (filePath != null) {
                             try {
@@ -85,7 +86,6 @@ class _ListarComprovantesPageState extends State<ListarComprovantesPage> {
                                 fit: BoxFit.contain,
                               ),
                       ),
-                      // --- FIM DA MODIFICAÇÃO PARA SER CLICÁVEL ---
                     ],
                   )
                 else
@@ -100,20 +100,21 @@ class _ListarComprovantesPageState extends State<ListarComprovantesPage> {
                       ElevatedButton(
                         onPressed: () {
                           _atualizarStatus(comprovante['id'], 'confirmado');
-                          Navigator.of(context).pop(); // Fecha o modal
+                          Navigator.of(context).pop();
                         },
-                        child: const Text('Confirmar Comprovante'),
+                        style: ElevatedButton.styleFrom(backgroundColor: sindicoThemeColor), // Corrigido
+                        child: const Text('Confirmar Comprovante', style: TextStyle(color: Colors.white)), // Texto branco
                       ),
                       const SizedBox(height: 10),
                       ElevatedButton(
                         onPressed: () {
                           _atualizarStatus(comprovante['id'], 'rejeitado');
-                          Navigator.of(context).pop(); // Fecha o modal
+                          Navigator.of(context).pop();
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red, // Cor para rejeitar
+                          backgroundColor: Colors.red,
                         ),
-                        child: const Text('Rejeitar Comprovante'),
+                        child: const Text('Rejeitar Comprovante', style: TextStyle(color: Colors.white)), // Texto branco
                       ),
                     ],
                   )
@@ -145,7 +146,7 @@ class _ListarComprovantesPageState extends State<ListarComprovantesPage> {
         SnackBar(content: Text('Comprovante ${novoStatus} com sucesso!')),
       );
     }
-    _carregarComprovantes(); // Recarrega a lista para refletir a mudança
+    _carregarComprovantes();
   }
 
   Color _getStatusColor(String status) {
@@ -174,7 +175,7 @@ class _ListarComprovantesPageState extends State<ListarComprovantesPage> {
             letterSpacing: 1.2,
           ),
         ),
-        backgroundColor: const Color.fromARGB(255, 61, 96, 178),
+        backgroundColor: sindicoThemeColor, // Corrigido
         centerTitle: true,
       ),
       body: _isLoading

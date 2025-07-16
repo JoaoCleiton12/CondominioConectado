@@ -119,7 +119,33 @@ class DatabaseHelper {
       )
     ''');
 
+    await db.execute('''
+      CREATE TABLE solicitacoes_manutencao (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        titulo TEXT NOT NULL,
+        descricao TEXT NOT NULL,
+        prioridade TEXT NOT NULL,
+        status TEXT NOT NULL,
+        data_solicitacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        data_conclusao TIMESTAMP,
+        usuario_id INTEGER NOT NULL,
+        responsavel_id INTEGER,
+        caminho_imagem TEXT, -- NOVO CAMPO ADICIONADO AQUI
+        FOREIGN KEY(usuario_id) REFERENCES usuarios(id),
+        FOREIGN KEY(responsavel_id) REFERENCES usuarios(id)
+      )
+    ''');
 
+    await db.execute('''
+      CREATE TABLE atas (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        titulo TEXT NOT NULL,
+        data_ata TEXT NOT NULL, -- Formato ISO 8601 (YYYY-MM-DD HH:MM:SS.sss)
+        link_externo TEXT,      -- Campo opcional para link (Drive, etc.)
+        caminho_arquivo_local TEXT, -- Campo opcional para arquivo anexado localmente
+        data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    ''');
 
 
     // Usuários de teste
@@ -134,12 +160,117 @@ class DatabaseHelper {
     
   }
 
+
+// ATAS -------------------------------------------------------------------------
+
+// Método para inserir uma nova ata
+Future<int> inserirAta(Map<String, dynamic> ata) async {
+  final db = await database;
+  return await db.insert('atas', ata);
+}
+
+// Método para buscar todas as atas
+Future<List<Map<String, dynamic>>> buscarTodasAtas() async {
+  final db = await database;
+  return await db.query(
+    'atas',
+    orderBy: 'data_ata DESC', // Ordenar da mais recente para a mais antiga
+  );
+}
+
+// Método para deletar uma ata
+Future<int> deletarAta(int ataId) async {
+  final db = await database;
+  return await db.delete(
+    'atas',
+    where: 'id = ?',
+    whereArgs: [ataId],
+  );
+}
+//-------------------------------------------------------------------------------
+
+
 Future<int> inserirComprovante(Map<String, dynamic> comprovante) async {
   final db = await database;
   return await db.insert('comprovantes', comprovante);
 }
 
-// COM PROVANTES -----------------------------------------------------------------------
+// SOLICITAÇÕES DE MANUTENÇÃO ----------------------------------------------------
+
+// Método para inserir uma nova solicitação de manutenção
+Future<int> inserirSolicitacaoManutencao(Map<String, dynamic> solicitacao) async {
+  final db = await database;
+  return await db.insert('solicitacoes_manutencao', solicitacao);
+}
+
+// Método para buscar todas as solicitações de manutenção, com o nome do usuário que a criou e do responsável
+Future<List<Map<String, dynamic>>> buscarTodasSolicitacoesManutencao() async {
+  final db = await database;
+  return await db.rawQuery('''
+    SELECT
+      sm.id,
+      sm.titulo,
+      sm.descricao,
+      sm.prioridade,
+      sm.status,
+      sm.data_solicitacao,
+      sm.data_conclusao,
+      sm.caminho_imagem, -- SELECIONANDO O NOVO CAMPO
+      u.nome AS nome_solicitante,
+      u.tipo_usuario AS tipo_solicitante,
+      r.nome AS nome_responsavel -- Nome do responsável, se houver
+    FROM solicitacoes_manutencao sm
+    JOIN usuarios u ON sm.usuario_id = u.id
+    LEFT JOIN usuarios r ON sm.responsavel_id = r.id
+    ORDER BY sm.data_solicitacao DESC
+  ''');
+}
+
+// Método para buscar solicitações de manutenção por um usuário específico (morador/sindico/funcionario)
+Future<List<Map<String, dynamic>>> buscarSolicitacoesManutencaoPorUsuario(int usuarioId) async {
+  final db = await database;
+  return await db.rawQuery('''
+    SELECT
+      sm.id,
+      sm.titulo,
+      sm.descricao,
+      sm.prioridade,
+      sm.status,
+      sm.data_solicitacao,
+      sm.data_conclusao,
+      sm.caminho_imagem, -- SELECIONANDO O NOVO CAMPO
+      u.nome AS nome_solicitante,
+      r.nome AS nome_responsavel -- Nome do responsável, se houver
+    FROM solicitacoes_manutencao sm
+    JOIN usuarios u ON sm.usuario_id = u.id
+    LEFT JOIN usuarios r ON sm.responsavel_id = r.id
+    WHERE sm.usuario_id = ?
+    ORDER BY sm.data_solicitacao DESC
+  ''', [usuarioId]);
+}
+
+// O método atualizarSolicitacaoManutencao já aceita um Map, então ele automaticamente lidará com 'caminho_imagem' se for passado
+Future<int> atualizarSolicitacaoManutencao(int solicitacaoId, Map<String, dynamic> dadosAtualizados) async {
+  final db = await database;
+  // Se o status mudar para 'Concluída', atualiza a data de conclusão
+  if (dadosAtualizados['status'] == 'Concluída' && !dadosAtualizados.containsKey('data_conclusao')) {
+    dadosAtualizados['data_conclusao'] = DateTime.now().toIso8601String();
+  } else if (dadosAtualizados['status'] != 'Concluída' && dadosAtualizados.containsKey('data_conclusao')) {
+    // Se o status mudar de 'Concluída' para outro, remove a data de conclusão
+    dadosAtualizados['data_conclusao'] = null; // Setar como null no DB
+  }
+  return await db.update(
+    'solicitacoes_manutencao',
+    dadosAtualizados,
+    where: 'id = ?',
+    whereArgs: [solicitacaoId],
+  );
+}
+//--------------------------------------------------------------------
+
+
+
+// COMPROVANTES -----------------------------------------------------------------------
 
 // NOVO: Método para buscar todos os comprovantes, juntando com informações do morador
 Future<List<Map<String, dynamic>>> buscarTodosComprovantesComMoradores() async {

@@ -11,6 +11,9 @@ class ListarPetsPage extends StatefulWidget {
 class _ListarPetsPageState extends State<ListarPetsPage> {
   late Future<List<Map<String, dynamic>>> _petsFuture;
 
+  // COR DO TEMA DO SÍNDICO
+  final Color sindicoThemeColor = const Color.fromARGB(255, 34, 139, 34); // VERDE
+
   @override
   void initState() {
     super.initState();
@@ -22,17 +25,17 @@ class _ListarPetsPageState extends State<ListarPetsPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-          title: const Text(
-            'Lista de Pets',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              letterSpacing: 1.2,
-            ),
+        title: const Text(
+          'Lista de Pets',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            letterSpacing: 1.2,
           ),
-        backgroundColor: const Color.fromARGB(255, 61, 96, 178),
+        ),
+        backgroundColor: sindicoThemeColor, // Corrigido
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _petsFuture,
@@ -48,14 +51,19 @@ class _ListarPetsPageState extends State<ListarPetsPage> {
           final pets = snapshot.data!;
 
           return ListView.builder(
+            padding: const EdgeInsets.all(8.0),
             itemCount: pets.length,
             itemBuilder: (context, index) {
               final pet = pets[index];
-              return ListTile(
-                leading: const Icon(Icons.pets),
-                title: Text(pet['nome_pet']),
-                subtitle: Text(
-                    'Idade: ${pet['idade']} anos\nCasa do dono: ${pet['casa_dono']}'),
+              return Card( // Adicionado Card para melhor visual
+                margin: const EdgeInsets.symmetric(vertical: 4.0),
+                elevation: 2,
+                child: ListTile(
+                  leading: Icon(Icons.pets, color: sindicoThemeColor), // Corrigido
+                  title: Text(pet['nome_pet'], style: const TextStyle(fontWeight: FontWeight.bold)), // Adicionado negrito
+                  subtitle: Text(
+                      'Idade: ${pet['idade']} | Dono: ${pet['nome_dono']} (Casa: ${pet['casa_dono']})'), // Melhorado o subtítulo
+                ),
               );
             },
           );

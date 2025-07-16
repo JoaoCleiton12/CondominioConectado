@@ -17,27 +17,29 @@ class _CadastrarFuncionarioPageState extends State<CadastrarFuncionarioPage> wit
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
   String? _tipoFuncionarioSelecionado;
-  bool _carregandoCadastro = false; // Renomeado para clareza
+  bool _carregandoCadastro = false;
 
   // --- Variáveis para o Gerenciamento de Abas e Listagem ---
-  late TabController _tabController; // Adicione o TabController
-  final dbHelper = DatabaseHelper(); // Instância do DatabaseHelper
-  List<Map<String, dynamic>> _funcionarios = []; // Para a lista de funcionários
-  bool _carregandoLista = true; // Para o estado de carregamento da lista
+  late TabController _tabController;
+  final dbHelper = DatabaseHelper();
+  List<Map<String, dynamic>> _funcionarios = [];
+  bool _carregandoLista = true;
+
+  // COR DO TEMA DO SÍNDICO
+  final Color sindicoThemeColor = const Color.fromARGB(255, 34, 139, 34); // VERDE
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this); // Duas abas: Cadastrar e Listar
-    
-    // Ouve mudanças de aba para recarregar a lista quando a aba "Listar Funcionários" for selecionada
+    _tabController = TabController(length: 2, vsync: this);
+
     _tabController.addListener(() {
-      if (_tabController.index == 1) { // Se a segunda aba (Listar Funcionários) for selecionada
-        _carregarFuncionarios(); // Recarrega a lista
+      if (_tabController.index == 1) {
+        _carregarFuncionarios();
       }
     });
 
-    _carregarFuncionarios(); // Carrega os funcionários na inicialização para a primeira exibição da lista
+    _carregarFuncionarios();
   }
 
   @override
@@ -50,7 +52,6 @@ class _CadastrarFuncionarioPageState extends State<CadastrarFuncionarioPage> wit
     super.dispose();
   }
 
-  // --- Métodos para a Aba de Cadastro ---
   void _cadastrarFuncionario() async {
     if (!_formKey.currentState!.validate() || _tipoFuncionarioSelecionado == null) {
       if (context.mounted) {
@@ -102,9 +103,8 @@ class _CadastrarFuncionarioPageState extends State<CadastrarFuncionarioPage> wit
         _tipoFuncionarioSelecionado = null;
       });
 
-      // Após cadastrar, navegar para a aba "Listar Funcionários" e recarregar
-      _tabController.animateTo(1); // Mudar para a aba de listagem
-      _carregarFuncionarios(); // Recarregar a lista para mostrar o novo funcionário
+      _tabController.animateTo(1);
+      _carregarFuncionarios();
     } catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -116,7 +116,6 @@ class _CadastrarFuncionarioPageState extends State<CadastrarFuncionarioPage> wit
     }
   }
 
-  // --- Métodos para a Aba de Listagem ---
   Future<void> _carregarFuncionarios() async {
     setState(() {
       _carregandoLista = true;
@@ -164,7 +163,7 @@ class _CadastrarFuncionarioPageState extends State<CadastrarFuncionarioPage> wit
             const SnackBar(content: Text('Funcionário excluído com sucesso!')),
           );
         }
-        _carregarFuncionarios(); // Recarregar a lista após a exclusão
+        _carregarFuncionarios();
       } catch (e) {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -175,9 +174,6 @@ class _CadastrarFuncionarioPageState extends State<CadastrarFuncionarioPage> wit
     }
   }
 
-  // --- Widgets das Abas ---
-
-  /// Constrói o formulário para cadastrar um novo funcionário.
   Widget _buildCadastrarFuncionarioForm() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -187,7 +183,10 @@ class _CadastrarFuncionarioPageState extends State<CadastrarFuncionarioPage> wit
           children: [
             TextFormField(
               controller: _nomeController,
-              decoration: const InputDecoration(labelText: 'Nome'),
+              decoration: InputDecoration(
+                labelText: 'Nome',
+                labelStyle: TextStyle(color: sindicoThemeColor), // Corrigido
+              ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Informe o nome';
@@ -200,7 +199,10 @@ class _CadastrarFuncionarioPageState extends State<CadastrarFuncionarioPage> wit
             ),
             TextFormField(
               controller: _telefoneController,
-              decoration: const InputDecoration(labelText: 'Telefone'),
+              decoration: InputDecoration(
+                labelText: 'Telefone',
+                labelStyle: TextStyle(color: sindicoThemeColor), // Corrigido
+              ),
               keyboardType: TextInputType.number,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -214,7 +216,10 @@ class _CadastrarFuncionarioPageState extends State<CadastrarFuncionarioPage> wit
             ),
             TextFormField(
               controller: _emailController,
-              decoration: const InputDecoration(labelText: 'E-mail'),
+              decoration: InputDecoration(
+                labelText: 'E-mail',
+                labelStyle: TextStyle(color: sindicoThemeColor), // Corrigido
+              ),
               keyboardType: TextInputType.emailAddress,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -229,7 +234,10 @@ class _CadastrarFuncionarioPageState extends State<CadastrarFuncionarioPage> wit
             ),
             TextFormField(
               controller: _senhaController,
-              decoration: const InputDecoration(labelText: 'Senha'),
+              decoration: InputDecoration(
+                labelText: 'Senha',
+                labelStyle: TextStyle(color: sindicoThemeColor), // Corrigido
+              ),
               obscureText: true,
               validator: (value) =>
                   value == null || value.isEmpty ? 'Informe a senha' : null,
@@ -237,11 +245,13 @@ class _CadastrarFuncionarioPageState extends State<CadastrarFuncionarioPage> wit
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
               value: _tipoFuncionarioSelecionado,
-              decoration: const InputDecoration(labelText: 'Cargo do Funcionário'),
+              decoration: InputDecoration(
+                labelText: 'Cargo do Funcionário',
+                labelStyle: TextStyle(color: sindicoThemeColor), // Corrigido
+              ),
               items: const [
                 DropdownMenuItem(value: 'porteiro', child: Text('Porteiro')),
                 DropdownMenuItem(value: 'zelador', child: Text('Zelador')),
-                // As opções 'faxineiro' e 'manutencao' foram removidas
               ],
               onChanged: (value) {
                 setState(() {
@@ -254,11 +264,14 @@ class _CadastrarFuncionarioPageState extends State<CadastrarFuncionarioPage> wit
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _carregandoCadastro ? null : _cadastrarFuncionario,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: sindicoThemeColor, // Corrigido
+              ),
               child: _carregandoCadastro
                   ? const CircularProgressIndicator(color: Colors.white)
                   : const Text('Cadastrar',
                       style: TextStyle(
-                          color: Color.fromARGB(255, 61, 96, 178),
+                          color: Colors.white, // Texto do botão branco
                           fontWeight: FontWeight.bold)),
             ),
           ],
@@ -267,7 +280,6 @@ class _CadastrarFuncionarioPageState extends State<CadastrarFuncionarioPage> wit
     );
   }
 
-  /// Constrói a lista de funcionários cadastrados.
   Widget _buildListarFuncionarios() {
     return _carregandoLista
         ? const Center(child: CircularProgressIndicator())
@@ -282,14 +294,14 @@ class _CadastrarFuncionarioPageState extends State<CadastrarFuncionarioPage> wit
                     margin: const EdgeInsets.symmetric(vertical: 4.0),
                     elevation: 2,
                     child: ListTile(
-                      leading: const Icon(Icons.badge, color: Color.fromARGB(255, 61, 96, 178)),
+                      leading: Icon(Icons.badge, color: sindicoThemeColor), // Corrigido
                       title: Text(f['nome']),
                       subtitle: Text('Cargo: ${f['cargo']} | E-mail: ${f['email']}'),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete, color: Colors.red),
                         tooltip: 'Excluir funcionário',
                         onPressed: () {
-                          final usuarioId = f['usuario_id']; // Use 'usuario_id' que vem da query
+                          final usuarioId = f['usuario_id'];
                           if (usuarioId != null) {
                             _confirmarExcluirFuncionario(usuarioId);
                           } else {
@@ -313,7 +325,7 @@ class _CadastrarFuncionarioPageState extends State<CadastrarFuncionarioPage> wit
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          'Gerenciar Funcionários', // Título mais genérico para a tela com abas
+          'Gerenciar Funcionários',
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.white,
@@ -322,8 +334,8 @@ class _CadastrarFuncionarioPageState extends State<CadastrarFuncionarioPage> wit
             letterSpacing: 1.2,
           ),
         ),
-        backgroundColor: const Color.fromARGB(255, 61, 96, 178),
-        bottom: TabBar( // Adicione a TabBar aqui
+        backgroundColor: sindicoThemeColor, // Corrigido
+        bottom: TabBar(
           controller: _tabController,
           tabs: const [
             Tab(text: 'Cadastrar Funcionário', icon: Icon(Icons.person_add)),
@@ -332,14 +344,14 @@ class _CadastrarFuncionarioPageState extends State<CadastrarFuncionarioPage> wit
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           indicatorColor: Colors.white,
-          isScrollable: false, // Geralmente não é necessário para 2 abas
+          isScrollable: false,
         ),
       ),
-      body: TabBarView( // Adicione o TabBarView ao body
+      body: TabBarView(
         controller: _tabController,
         children: [
-          _buildCadastrarFuncionarioForm(), // Conteúdo da aba "Cadastrar Funcionário"
-          _buildListarFuncionarios(),      // Conteúdo da aba "Listar Funcionários"
+          _buildCadastrarFuncionarioForm(),
+          _buildListarFuncionarios(),
         ],
       ),
     );

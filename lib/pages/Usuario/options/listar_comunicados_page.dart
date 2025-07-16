@@ -3,7 +3,8 @@ import 'package:condomonioconectado/database/database_helper.dart';
 import 'package:intl/intl.dart';
 
 class ListarComunicadosPage extends StatefulWidget {
-  const ListarComunicadosPage({super.key});
+  final String userType; // NOVO: Campo para receber o tipo de usuário
+  const ListarComunicadosPage({super.key, required this.userType}); // NOVO: Construtor com userType
 
   @override
   State<ListarComunicadosPage> createState() => _ListarComunicadosPageState();
@@ -12,9 +13,29 @@ class ListarComunicadosPage extends StatefulWidget {
 class _ListarComunicadosPageState extends State<ListarComunicadosPage> {
   late Future<List<Map<String, dynamic>>> _comunicadosFuture;
 
+  // CORES DO TEMA
+  final Color moradorThemeColor = const Color.fromARGB(255, 61, 96, 178); // AZUL
+  final Color sindicoThemeColor = const Color.fromARGB(255, 34, 139, 34); // VERDE
+  final Color funcionarioThemeColor = const Color.fromARGB(255, 128, 0, 128); // ROXO
+
+  late Color pageThemeColor; // Variável para a cor do tema da página
+
   @override
   void initState() {
     super.initState();
+    // Define a cor do tema baseada no tipo de usuário
+    switch (widget.userType) {
+      case 'sindico':
+        pageThemeColor = sindicoThemeColor;
+        break;
+      case 'funcionario':
+        pageThemeColor = funcionarioThemeColor;
+        break;
+      case 'morador':
+      default:
+        pageThemeColor = moradorThemeColor;
+        break;
+    }
     _comunicadosFuture = DatabaseHelper().listarComunicados();
   }
 
@@ -28,17 +49,17 @@ class _ListarComunicadosPageState extends State<ListarComunicadosPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-          title: const Text(
-            'Comunicados',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              letterSpacing: 1.2,
-            ),
+        title: const Text(
+          'Comunicados',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            letterSpacing: 1.2,
           ),
-        backgroundColor: const Color.fromARGB(255, 61, 96, 178),
+        ),
+        backgroundColor: pageThemeColor, // Cor dinâmica
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _comunicadosFuture,
@@ -60,7 +81,7 @@ class _ListarComunicadosPageState extends State<ListarComunicadosPage> {
               return Card(
                 margin: const EdgeInsets.all(10),
                 child: ListTile(
-                  leading: const Icon(Icons.announcement, color: Colors.blue),
+                  leading: Icon(Icons.announcement, color: pageThemeColor), // Cor dinâmica
                   title: Text(comunicado['titulo']),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

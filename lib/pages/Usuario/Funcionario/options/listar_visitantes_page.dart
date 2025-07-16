@@ -13,6 +13,9 @@ class _ListarVisitantesPageState extends State<ListarVisitantesPage> {
   final dbHelper = DatabaseHelper();
   List<Map<String, dynamic>> _visitantes = [];
 
+  // COR DO TEMA DO FUNCIONÁRIO (ROXO)
+  final Color funcionarioThemeColor = const Color.fromARGB(255, 128, 0, 128); // ROXO
+
   @override
   void initState() {
     super.initState();
@@ -26,9 +29,11 @@ class _ListarVisitantesPageState extends State<ListarVisitantesPage> {
         _visitantes = resultado;
       });
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro ao buscar visitantes: $e')),
-      );
+      if (context.mounted) { // Garante que o contexto ainda está montado
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro ao buscar visitantes: $e')),
+        );
+      }
     }
   }
 
@@ -37,17 +42,17 @@ class _ListarVisitantesPageState extends State<ListarVisitantesPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-          title: const Text(
-            'Visitantes Cadastrados',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              letterSpacing: 1.2,
-            ),
+        title: const Text(
+          'Visitantes Cadastrados',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            letterSpacing: 1.2,
           ),
-        backgroundColor: const Color.fromARGB(255, 61, 96, 178),
+        ),
+        backgroundColor: funcionarioThemeColor, // Aplicando a cor roxa
       ),
       body: _visitantes.isEmpty
           ? const Center(child: Text('Nenhum visitante cadastrado.'))
@@ -57,8 +62,9 @@ class _ListarVisitantesPageState extends State<ListarVisitantesPage> {
                 final visitante = _visitantes[index];
                 return Card(
                   margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  elevation: 4, // Adicionado elevação ao Card para um visual melhor
                   child: ListTile(
-                    leading: const Icon(Icons.person),
+                    leading: Icon(Icons.person, color: funcionarioThemeColor), // Ícone com a cor do tema
                     title: Text(visitante['nome_visitante']),
                     subtitle: Text('Idade: ${visitante['idade']} | Morador: ${visitante['nome_morador']}'),
                     onTap: () {

@@ -9,7 +9,7 @@ class CadastrarMoradorPage extends StatefulWidget {
   State<CadastrarMoradorPage> createState() => _CadastrarMoradorPageState();
 }
 
-class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with SingleTickerProviderStateMixin { // ADICIONE 'with SingleTickerProviderStateMixin'
+class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with SingleTickerProviderStateMixin {
   // --- Variáveis e Controladores para a Aba de Cadastro ---
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nomeController = TextEditingController();
@@ -17,27 +17,29 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
   final TextEditingController _casaController = TextEditingController();
-  bool _carregandoCadastro = false; // Renomeado para clareza
+  bool _carregandoCadastro = false;
   
   // --- Variáveis para o Gerenciamento de Abas e Listagem ---
-  late TabController _tabController; // Adicione o TabController
-  final dbHelper = DatabaseHelper(); // Instância do DatabaseHelper
-  List<Map<String, dynamic>> _moradores = []; // Para a lista de moradores
-  bool _carregandoLista = true; // Para o estado de carregamento da lista
+  late TabController _tabController;
+  final dbHelper = DatabaseHelper();
+  List<Map<String, dynamic>> _moradores = [];
+  bool _carregandoLista = true;
+
+  // COR DO TEMA DO SÍNDICO
+  final Color sindicoThemeColor = const Color.fromARGB(255, 34, 139, 34); // VERDE
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this); // Duas abas: Cadastrar e Listar
-    
-    // Ouve mudanças de aba para recarregar a lista quando a aba "Listar Moradores" for selecionada
+    _tabController = TabController(length: 2, vsync: this);
+
     _tabController.addListener(() {
-      if (_tabController.index == 1) { // Se a segunda aba (Listar Moradores) for selecionada
-        _carregarMoradores(); // Recarrega a lista
+      if (_tabController.index == 1) {
+        _carregarMoradores();
       }
     });
 
-    _carregarMoradores(); // Carrega os moradores na inicialização para a primeira exibição da lista
+    _carregarMoradores();
   }
 
   @override
@@ -51,7 +53,6 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
     super.dispose();
   }
 
-  // --- Métodos para a Aba de Cadastro ---
   void _cadastrarMorador() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -95,9 +96,8 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
       _senhaController.clear();
       _casaController.clear();
 
-      // Após cadastrar, navegar para a aba "Listar Moradores" e recarregar
-      _tabController.animateTo(1); // Mudar para a aba de listagem
-      _carregarMoradores(); // Recarregar a lista para mostrar o novo morador
+      _tabController.animateTo(1);
+      _carregarMoradores();
     } catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -109,7 +109,6 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
     }
   }
 
-  // --- Métodos para a Aba de Listagem ---
   Future<void> _carregarMoradores() async {
     setState(() {
       _carregandoLista = true;
@@ -157,7 +156,7 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
             const SnackBar(content: Text('Morador excluído com sucesso!')),
           );
         }
-        _carregarMoradores(); // Recarregar a lista após a exclusão
+        _carregarMoradores();
       } catch (e) {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -168,9 +167,6 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
     }
   }
 
-  // --- Widgets das Abas ---
-
-  /// Constrói o formulário para cadastrar um novo morador.
   Widget _buildCadastrarMoradorForm() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -180,7 +176,10 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
           children: [
             TextFormField(
               controller: _nomeController,
-              decoration: const InputDecoration(labelText: 'Nome'),
+              decoration: InputDecoration(
+                labelText: 'Nome',
+                labelStyle: TextStyle(color: sindicoThemeColor), // Corrigido
+              ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Informe o nome';
@@ -193,7 +192,10 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
             ),
             TextFormField(
               controller: _telefoneController,
-              decoration: const InputDecoration(labelText: 'Telefone'),
+              decoration: InputDecoration(
+                labelText: 'Telefone',
+                labelStyle: TextStyle(color: sindicoThemeColor), // Corrigido
+              ),
               keyboardType: TextInputType.number,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -207,7 +209,10 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
             ),
             TextFormField(
               controller: _emailController,
-              decoration: const InputDecoration(labelText: 'E-mail'),
+              decoration: InputDecoration(
+                labelText: 'E-mail',
+                labelStyle: TextStyle(color: sindicoThemeColor), // Corrigido
+              ),
               keyboardType: TextInputType.emailAddress,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -222,25 +227,34 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
             ),
             TextFormField(
               controller: _senhaController,
-              decoration: const InputDecoration(labelText: 'Senha'),
+              decoration: InputDecoration(
+                labelText: 'Senha',
+                labelStyle: TextStyle(color: sindicoThemeColor), // Corrigido
+              ),
               obscureText: true,
               validator: (value) =>
                   value == null || value.isEmpty ? 'Informe a senha' : null,
             ),
             TextFormField(
               controller: _casaController,
-              decoration: const InputDecoration(labelText: 'Casa'),
+              decoration: InputDecoration(
+                labelText: 'Casa',
+                labelStyle: TextStyle(color: sindicoThemeColor), // Corrigido
+              ),
               validator: (value) =>
                   value == null || value.isEmpty ? 'Informe a casa' : null,
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _carregandoCadastro ? null : _cadastrarMorador,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: sindicoThemeColor, // Corrigido
+              ),
               child: _carregandoCadastro
-                  ? const CircularProgressIndicator(color: Colors.white) // Corrigi a cor
+                  ? const CircularProgressIndicator(color: Colors.white)
                   : const Text('Cadastrar',
                       style: TextStyle(
-                          color: Color.fromARGB(255, 61, 96, 178),
+                          color: Colors.white, // Texto do botão branco
                           fontWeight: FontWeight.bold)),
             ),
           ],
@@ -249,7 +263,6 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
     );
   }
 
-  /// Constrói a lista de moradores cadastrados.
   Widget _buildListarMoradores() {
     return _carregandoLista
         ? const Center(child: CircularProgressIndicator())
@@ -260,19 +273,18 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
                 itemCount: _moradores.length,
                 itemBuilder: (context, index) {
                   final m = _moradores[index];
-                  // Você pode envolver com Card para um visual melhor
                   return Card(
                     margin: const EdgeInsets.symmetric(vertical: 4.0),
                     elevation: 2,
                     child: ListTile(
-                      leading: const Icon(Icons.person, color: Color.fromARGB(255, 61, 96, 178)),
+                      leading: Icon(Icons.person, color: sindicoThemeColor), // Corrigido
                       title: Text(m['nome']),
                       subtitle: Text('Casa: ${m['casa']} | E-mail: ${m['email']}'),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete, color: Colors.red),
                         tooltip: 'Excluir morador',
                         onPressed: () {
-                          final usuarioId = m['id']; // Use 'id' do usuário para exclusão
+                          final usuarioId = m['id'];
                           if (usuarioId != null) {
                             _confirmarExcluirMorador(usuarioId);
                           } else {
@@ -296,7 +308,7 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          'Gerenciar Moradores', // Título mais genérico para a tela com abas
+          'Gerenciar Moradores',
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.white,
@@ -305,8 +317,8 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
             letterSpacing: 1.2,
           ),
         ),
-        backgroundColor: const Color.fromARGB(255, 61, 96, 178),
-        bottom: TabBar( // Adicione a TabBar aqui
+        backgroundColor: sindicoThemeColor, // Corrigido
+        bottom: TabBar(
           controller: _tabController,
           tabs: const [
             Tab(text: 'Cadastrar Morador', icon: Icon(Icons.person_add)),
@@ -315,14 +327,14 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           indicatorColor: Colors.white,
-          isScrollable: false, // Geralmente não é necessário para 2 abas
+          isScrollable: false,
         ),
       ),
-      body: TabBarView( // Adicione o TabBarView ao body
+      body: TabBarView(
         controller: _tabController,
         children: [
-          _buildCadastrarMoradorForm(), // Conteúdo da aba "Cadastrar Morador"
-          _buildListarMoradores(),      // Conteúdo da aba "Listar Moradores"
+          _buildCadastrarMoradorForm(),
+          _buildListarMoradores(),
         ],
       ),
     );
