@@ -104,6 +104,22 @@ class DatabaseHelper {
       )
     ''');
 
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS comprovantes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        morador_id INTEGER NOT NULL,
+        mes_referencia TEXT NOT NULL,
+        valor REAL NOT NULL,
+        tipo TEXT NOT NULL,
+        comentario TEXT,
+        caminho_arquivo TEXT NOT NULL,
+        status TEXT DEFAULT 'pendente',
+        data_envio TEXT DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY(morador_id) REFERENCES usuarios(id)
+      )
+    ''');
+
+
 
 
     // Usuários de teste
@@ -117,6 +133,59 @@ class DatabaseHelper {
 
     
   }
+
+Future<int> inserirComprovante(Map<String, dynamic> comprovante) async {
+  final db = await database;
+  return await db.insert('comprovantes', comprovante);
+}
+
+// COM PROVANTES -----------------------------------------------------------------------
+
+// NOVO: Método para buscar todos os comprovantes, juntando com informações do morador
+Future<List<Map<String, dynamic>>> buscarTodosComprovantesComMoradores() async {
+  final db = await database;
+  return await db.rawQuery('''
+    SELECT
+      c.id,
+      c.mes_referencia,
+      c.valor,
+      c.tipo,
+      c.comentario,
+      c.caminho_arquivo,
+      c.status,
+      c.data_envio,
+      u.nome AS nome_morador,
+      u.email AS email_morador,
+      m.casa AS casa_morador
+    FROM comprovantes c
+    JOIN usuarios u ON c.morador_id = u.id
+    JOIN moradores m ON c.morador_id = m.usuario_id
+    ORDER BY c.data_envio DESC
+  ''');
+}
+
+// NOVO: Método para atualizar o status de um comprovante (ex: para 'confirmado' ou 'rejeitado')
+Future<int> atualizarStatusComprovante(int comprovanteId, String novoStatus) async {
+  final db = await database;
+  return await db.update(
+    'comprovantes',
+    {'status': novoStatus},
+    where: 'id = ?',
+    whereArgs: [comprovanteId],
+  );
+}
+
+// NOVO: Método para buscar comprovantes de um morador específico
+Future<List<Map<String, dynamic>>> buscarComprovantesPorMorador(int moradorId) async {
+  final db = await database;
+  return await db.query(
+    'comprovantes',
+    where: 'morador_id = ?',
+    whereArgs: [moradorId],
+    orderBy: 'data_envio DESC', // Ordenar pelos mais recentes primeiro
+  );
+}
+//---------------------------------------------------------------------------------------
 
 //COMUNICADOS----------------------------------------------------------------------------
   Future<int> inserirComunicado(String titulo, String descricao) async {

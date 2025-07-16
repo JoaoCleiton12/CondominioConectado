@@ -2,10 +2,12 @@ import 'package:condomonioconectado/pages/Usuario/Morador/options/Pets/cadastrar
 import 'package:condomonioconectado/pages/Usuario/Morador/options/Visitantes/cadastrar_visitantes_page.dart';
 import 'package:condomonioconectado/pages/Usuario/Funcionario/options/listar_visitantes_page.dart';
 import 'package:condomonioconectado/pages/Usuario/Morador/options/Visitantes/registrar_visitante_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Morador/options/enviar_comprovante_page.dart';
 import 'package:condomonioconectado/pages/Usuario/Sindico/options/Funcionarios/cadastrar_funcionario_page.dart';
 import 'package:condomonioconectado/pages/Usuario/Sindico/options/Comunicados/cadastrar_comunicado_page.dart';
 import 'package:condomonioconectado/pages/Usuario/Sindico/options/Comunicados/listar_comunicados_page.dart';
 import 'package:condomonioconectado/pages/Usuario/Sindico/options/Pets/listar_pets_page.dart';
+import 'package:condomonioconectado/pages/Usuario/Sindico/options/listar_comprovantes_page.dart';
 import 'package:condomonioconectado/pages/Usuario/options/listar_reservas_page.dart';
 import 'package:condomonioconectado/pages/Usuario/options/reservar_area_page.dart';
 import 'package:flutter/material.dart';
@@ -20,11 +22,11 @@ class HomePage extends StatelessWidget {
   List<String> _obterOpcoes(String tipoUsuario) {
     switch (tipoUsuario) {
       case 'morador':
-        return ['Area de Lazer', 'Cadastrar Pet', 'Cadastrar Visitante', 'Comunicados', 'Registrar Visita'];
+        return ['Area de Lazer', 'Cadastrar Pet', 'Cadastrar Visitante', 'Comunicados', 'Registrar Visita', 'Emitir Debitos'];
       case 'funcionario':
         return ['Comunicados', 'Reservas', 'Visitantes'];
       case 'sindico':
-        return ['Cadastrar Comunicado', 'Comunicados', 'Funcionario', 'Listar Pets', 'Morador', 'Reservas'];
+        return ['Cadastrar Comunicado', 'Comunicados', 'Funcionario', 'Listar Pets', 'Morador', 'Reservas', 'Comprovantes'];
       default:
         return ['Opção 1']; // padrão para tipos desconhecidos
     }
@@ -104,6 +106,9 @@ class HomePage extends StatelessWidget {
                     }
                     if (opcao == 'Morador' && tipoUsuario == 'sindico') {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const CadastrarMoradorPage())); 
+                    }
+                    if (opcao == 'Comprovantes' && tipoUsuario == 'sindico') { 
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const ListarComprovantesPage()));
                     } 
                     //-------------------------------------------------------------------------------------------------
 
@@ -118,6 +123,10 @@ class HomePage extends StatelessWidget {
                     if (opcao == 'Registrar Visita' && tipoUsuario == 'morador') {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const RegistrarVisitaPage()));
                     }
+                    if (opcao == 'Emitir Debitos' && tipoUsuario == 'morador') {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const EnviarComprovantePage()));
+                    }
+
                     //-------------------------------------------------------------------------------------------------
 
 
@@ -194,18 +203,31 @@ class HomePage extends StatelessWidget {
                                 ],
                               )
                         : (opcao == 'Morador' && tipoUsuario == 'sindico')
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Icon(Icons.person_add, color: Colors.white, size: 60),
-                              SizedBox(height: 8),
-                              Text(
-                                'Morador',
-                                style: TextStyle(color: Colors.white),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          )
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(Icons.person_add, color: Colors.white, size: 60),
+                                SizedBox(height: 8),
+                                Text(
+                                  'Morador',
+                                  style: TextStyle(color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            )
+                        : (opcao == 'Comprovantes' && tipoUsuario == 'sindico') // Adicione este bloco
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(Icons.description, color: Colors.white, size: 60), // Ícone de documento
+                                SizedBox(height: 8),
+                                Text(
+                                  'Comprovantes',
+                                  style: TextStyle(color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            )
                         //------------------------------------------------------------------------------------------------------------------
                         
 
@@ -243,6 +265,19 @@ class HomePage extends StatelessWidget {
                                   Icon(Icons.how_to_reg, color: Colors.white, size: 60),
                                   SizedBox(height: 8),
                                   Text('Registrar Visita', style: TextStyle(color: Colors.white), textAlign: TextAlign.center),
+                                ],
+                              )
+                        : (opcao == 'Emitir Debitos' && tipoUsuario == 'morador')
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(Icons.attach_file, color: Colors.white, size: 60),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Emitir Debitos',
+                                    style: TextStyle(color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ],
                               )
                         //------------------------------------------------------------------------------------------------------------------
