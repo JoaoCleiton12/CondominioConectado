@@ -139,10 +139,12 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
           TextButton(
             onPressed: () => Navigator.pop(context, false),
             child: const Text('Cancelar'),
+            style: TextButton.styleFrom(foregroundColor: sindicoThemeColor),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
             child: const Text('Excluir'),
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
           ),
         ],
       ),
@@ -178,7 +180,7 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
               controller: _nomeController,
               decoration: InputDecoration(
                 labelText: 'Nome',
-                labelStyle: TextStyle(color: sindicoThemeColor), // Corrigido
+                labelStyle: TextStyle(color: sindicoThemeColor),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -194,7 +196,7 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
               controller: _telefoneController,
               decoration: InputDecoration(
                 labelText: 'Telefone',
-                labelStyle: TextStyle(color: sindicoThemeColor), // Corrigido
+                labelStyle: TextStyle(color: sindicoThemeColor),
               ),
               keyboardType: TextInputType.number,
               validator: (value) {
@@ -211,7 +213,7 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
               controller: _emailController,
               decoration: InputDecoration(
                 labelText: 'E-mail',
-                labelStyle: TextStyle(color: sindicoThemeColor), // Corrigido
+                labelStyle: TextStyle(color: sindicoThemeColor),
               ),
               keyboardType: TextInputType.emailAddress,
               validator: (value) {
@@ -229,7 +231,7 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
               controller: _senhaController,
               decoration: InputDecoration(
                 labelText: 'Senha',
-                labelStyle: TextStyle(color: sindicoThemeColor), // Corrigido
+                labelStyle: TextStyle(color: sindicoThemeColor),
               ),
               obscureText: true,
               validator: (value) =>
@@ -239,7 +241,7 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
               controller: _casaController,
               decoration: InputDecoration(
                 labelText: 'Casa',
-                labelStyle: TextStyle(color: sindicoThemeColor), // Corrigido
+                labelStyle: TextStyle(color: sindicoThemeColor),
               ),
               validator: (value) =>
                   value == null || value.isEmpty ? 'Informe a casa' : null,
@@ -248,13 +250,13 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
             ElevatedButton(
               onPressed: _carregandoCadastro ? null : _cadastrarMorador,
               style: ElevatedButton.styleFrom(
-                backgroundColor: sindicoThemeColor, // Corrigido
+                backgroundColor: sindicoThemeColor,
               ),
               child: _carregandoCadastro
                   ? const CircularProgressIndicator(color: Colors.white)
                   : const Text('Cadastrar',
                       style: TextStyle(
-                          color: Colors.white, // Texto do botão branco
+                          color: Colors.white,
                           fontWeight: FontWeight.bold)),
             ),
           ],
@@ -277,16 +279,17 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
                     margin: const EdgeInsets.symmetric(vertical: 4.0),
                     elevation: 2,
                     child: ListTile(
-                      leading: Icon(Icons.person, color: sindicoThemeColor), // Corrigido
+                      leading: Icon(Icons.person, color: sindicoThemeColor),
                       title: Text(m['nome']),
                       subtitle: Text('Casa: ${m['casa']} | E-mail: ${m['email']}'),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete, color: Colors.red),
                         tooltip: 'Excluir morador',
                         onPressed: () {
-                          final usuarioId = m['id'];
+                          // CORREÇÃO: Use 'usuario_id' como retornado pela query
+                          final usuarioId = m['usuario_id'];
                           if (usuarioId != null) {
-                            _confirmarExcluirMorador(usuarioId);
+                            _confirmarExcluirMorador(usuarioId as int); // Cast para int
                           } else {
                             if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -317,7 +320,7 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
             letterSpacing: 1.2,
           ),
         ),
-        backgroundColor: sindicoThemeColor, // Corrigido
+        backgroundColor: sindicoThemeColor,
         bottom: TabBar(
           controller: _tabController,
           tabs: const [
