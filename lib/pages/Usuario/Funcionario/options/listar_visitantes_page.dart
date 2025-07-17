@@ -66,7 +66,7 @@ class _ListarVisitantesPageState extends State<ListarVisitantesPage> {
                   child: ListTile(
                     leading: Icon(Icons.person, color: funcionarioThemeColor), // Ícone com a cor do tema
                     title: Text(visitante['nome_visitante']),
-                    subtitle: Text('Idade: ${visitante['idade']} | Morador: ${visitante['nome_morador']}'),
+                    subtitle: Text('Idade: ${visitante['idade']} | Morador: ${visitante['nome_morador']} | Apartamento: ${visitante['apartamento_morador']}'),
                     onTap: () {
                       Navigator.push(
                         context,

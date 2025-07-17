@@ -348,12 +348,14 @@ Future<int> inserirVisitante(Map<String, dynamic> visitante) async {
 Future<List<Map<String, dynamic>>> buscarTodosVisitantesComMorador() async {
   final db = await database;
   return await db.rawQuery('''
-    SELECT v.id, v.nome AS nome_visitante, v.idade, u.nome AS nome_morador
+    SELECT v.id, v.nome AS nome_visitante, v.idade, u.nome AS nome_morador, m.casa AS apartamento_morador -- NOVO: Adicionado m.casa AS apartamento_morador
     FROM visitantes v
     JOIN usuarios u ON v.morador_id = u.id
+    JOIN moradores m ON u.id = m.usuario_id -- Adicionado JOIN com moradores para pegar a casa
     ORDER BY v.nome
   ''');
 }
+
 
 
 
