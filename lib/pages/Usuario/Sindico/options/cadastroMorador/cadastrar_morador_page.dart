@@ -234,8 +234,15 @@ class _CadastrarMoradorPageState extends State<CadastrarMoradorPage> with Single
                 labelStyle: TextStyle(color: sindicoThemeColor),
               ),
               obscureText: true,
-              validator: (value) =>
-                  value == null || value.isEmpty ? 'Informe a senha' : null,
+              validator: (value) {
+                  if(value == null || value.isEmpty) {
+                    return 'Informe a senha';
+                  }
+                  if(value.length < 6) {
+                    return 'A senha requer no mínimo 6 caracteres';
+                  }
+                  return null;
+              }
             ),
             TextFormField(
               controller: _casaController,

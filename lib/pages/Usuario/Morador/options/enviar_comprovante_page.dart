@@ -272,7 +272,7 @@ class _EnviarComprovantePageState extends State<EnviarComprovantePage> with Sing
               onPressed: _selecionarComprovante,
               icon: const Icon(Icons.attach_file),
               label: Text(_comprovante == null
-                  ? 'Anexar Comprovante (Opcional)' // Texto atualizado, já que agora é um 'débito' que o morador vai enviar comprovante
+                  ? 'Anexar Comprovante' // Texto atualizado, já que agora é um 'débito' que o morador vai enviar comprovante
                   : 'Comprovante Anexado (${_comprovante!.path.split('/').last})'),
             ),
             if (_comprovante != null)
