@@ -244,7 +244,7 @@ O síndico deverá ter a opção de cadastrar um novo funcionário ou listar os 
 - [x] Estimativa de tempo.
 - [x] Estimativa de entrega.
 
-**Link:** [Estimativa de Software](https://docs.google.com/presentation/d/1DM67UvOzubgGcaEkEk1h-KarfDLmatqBfiv_AOFDw/edit?usp=drivesdk)
+**Link:** [Estimativa de Software]([https://docs.google.com/presentation/d/1DM67UvOzubgGcaEkEk1h-KarfDLmatqBfiv_AOFDw/edit?usp=drivesdk](https://docs.google.com/presentation/d/1DM67U_vOzubgGcaEkEk1h-KarfDLmatqBFfiv_AOFDw/edit?slide=id.g3573cd9178a_1_9#slide=id.g3573cd9178a_1_9))
 
 **Status:** Concluído
 
