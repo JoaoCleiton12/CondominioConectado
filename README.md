@@ -129,7 +129,7 @@ No sistema, existem três tipos de usuários: síndico, morador e funcionário. 
 **Descrição:** Documento de Visão de Projeto
 **Itens:**
 - [x] Preencher tópicos do documento.
-**Link:** [Documento de Visão de Projeto](https://docs.google.com/document/d/1TzX37QldbBuNP2i8rLmlH2Hul6uOhN96v1-i3A6LsVM/edit?usp=drivesdk)
+**Link:** [Documento de Visão de Projeto] (você pode acessar os documentos na sessão Documentos do Projeto)
 
 **Status:** Concluído
 
