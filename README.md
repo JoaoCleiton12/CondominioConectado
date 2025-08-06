@@ -236,6 +236,20 @@ O síndico deverá ter a opção de cadastrar um novo funcionário ou listar os 
 
 ---
 
+### Sprint 4: Estimativas (09/07/2025)
+
+**Tarefa: Estimativa de Software**
+
+**Itens:**
+- [x] Estimativa de tempo.
+- [x] Estimativa de entrega.
+
+**Link:** [Estimativa de Software](https://docs.google.com/presentation/d/1DM67UvOzubgGcaEkEk1h-KarfDLmatqBfiv_AOFDw/edit?usp=drivesdk)
+
+**Status:** Concluído
+
+---
+
 ### Entrega Final
 
 **História 1: Consultar Atas**
