@@ -115,7 +115,7 @@ No sistema, existem três tipos de usuários: síndico, morador e funcionário. 
 *Estas tarefas são importantes para a execução da sprint, mas não são histórias de usuário diretas.*
 
 **Tarefa: Configurar o ambiente**
-**Descrição:** [Adicione uma descrição mais detalhada, se necessário]
+
 **Itens:**
 - [x] Ativar o Hyper-V no Windows.
 - [x] Seguir o tutorial do vídeo: [Curso Flutter – saiba como pegar um projeto Flutter no git e abrir no VS Code](https://www.youtube.com/watch?v=link_do_video).
@@ -126,7 +126,7 @@ No sistema, existem três tipos de usuários: síndico, morador e funcionário. 
 ---
 
 **Tarefa: Documento de Visão de Projeto**
-**Descrição:** Documento de Visão de Projeto
+
 **Itens:**
 - [x] Preencher tópicos do documento.
 **Link:** [Documento de Visão de Projeto] (você pode acessar os documentos na sessão Documentos do Projeto)
@@ -206,6 +206,31 @@ O síndico deverá ter a opção de cadastrar um novo funcionário ou listar os 
 - [x] Criar tela de cadastrar funcionários.
 - [x] Criar tela de listar funcionários.
 - [x] Criar opção de excluir funcionários.
+
+**Status:** Concluído
+
+---
+
+### Sprint 3: Refatoramento e Comunicação (18/06/2025)
+
+**História 1: Consultar Comunicados**
+
+**Como:** usuário
+**Quero:** consultar os comunicados do condomínio, para ficar informado sobre avisos e decisões.
+
+**Critérios de Aceitação:**
+- [x] Criar opção de consultar comunicados.
+- [x] Criar tela de consultar comunicados.
+
+**Status:** Concluído
+
+---
+
+**Tarefa: Refatoramento**
+
+**Itens:**
+- [x] Renomeação.
+- [x] Refatoração planejada.
 
 **Status:** Concluído
 
