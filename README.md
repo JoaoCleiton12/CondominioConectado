@@ -337,6 +337,104 @@ O morador irá na opção de reservar espaço comum e poderá selecionar o dia e
 
 ---
 
+**História 2: Consultar Débitos**
+
+**Como:** morador
+**Quero:** consultar meus débitos, para acompanhar os pagamentos do condomínio.
+
+**Critérios de Aceitação:**
+- [x] Criar tela de listar débitos.
+- [x] Criar opção de listar débitos.
+
+**Status:** Concluído
+
+---
+
+**História 3: Emitir Débitos**
+
+**Como:** síndico
+**Quero:** emitir débitos para os moradores, para controle das cobranças mensais.
+
+**Critérios de Aceitação:**
+- [x] Criar opção de cadastrar débitos.
+- [x] Criar tela de cadastrar débitos.
+
+**Status:** Concluído
+
+---
+
+**História 4: Consultar Boletos Gerados**
+
+**Como:** síndico
+**Quero:** consultar todos os boletos gerados, para fins de auditoria.
+
+**Descrição:**
+Nessa tela, o síndico terá acesso a todos os débitos de cada um dos moradores.
+
+**Critérios de Aceitação:**
+- [x] Criar tela de listar débitos de moradores.
+- [x] Criar opção de listar débitos de moradores.
+
+**Status:** Concluído
+
+---
+
+**História 5: Cadastrar Solicitações de Manutenção**
+
+**Como:** usuário
+**Quero:** cadastrar solicitações de manutenção, para manter a infraestrutura do condomínio em boas condições.
+
+**Critérios de Aceitação:**
+- [x] Criar tela de cadastrar manutenção.
+- [x] Criar opção de cadastrar manutenção.
+
+**Status:** Concluído
+
+---
+
+**História 6: Aprovar Manutenções**
+
+**Como:** síndico
+**Quero:** aprovar manutenções solicitadas por usuários, para manter a infraestrutura do condomínio em boas condições.
+
+**Descrição:**
+O síndico deverá conseguir listar todas as solicitações de manutenção cadastradas pelos usuários e aprovar ou não cada uma delas, para que possam ser executadas por um funcionário posteriormente.
+
+**Critérios de Aceitação:**
+- [x] Criar tela de listar manutenções solicitadas.
+- [x] Criar opção de aprovar manutenções solicitadas.
+- [x] Criar opção de reprovar manutenções solicitadas.
+
+**Status:** Concluído
+
+---
+
+**História 7: Consultar Histórico de Manutenções**
+
+**Como:** síndico
+**Quero:** consultar o histórico de manutenções, para controle e planejamento.
+
+**Critérios de Aceitação:**
+- [x] Criar opção de listar manutenções.
+- [x] Criar tela de listar manutenções.
+
+**Status:** Concluído
+
+---
+
+**História 8: Cadastrar Atas**
+
+**Como:** síndico
+**Quero:** cadastrar Atas, para informar os moradores sobre as discussões e decisões tomadas nas assembleias.
+
+**Critérios de Aceitação:**
+- [x] Criar opção de cadastrar Atas.
+- [x] Criar tela de cadastrar Atas.
+
+**Status:** Concluído
+
+---
+
 ## Documentos do Projeto
 
 Você pode acessar os documentos completos do projeto através do seguinte link:
