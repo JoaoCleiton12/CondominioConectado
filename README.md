@@ -135,6 +135,97 @@ No sistema, existem três tipos de usuários: síndico, morador e funcionário. 
 
 ---
 
+### Sprint 2: Gestão de Usuários e Comunicação (10/06/2025)
+
+**História 1: Acesso ao App**
+
+**Como:** usuário
+**Quero:** clicar no ícone do App e acessá-lo.
+
+**Critérios de Aceitação:**
+- [x] Criar a imagem da logo.
+- [x] Configurar o código para utilizar a imagem.
+
+**Status:** Concluído
+
+---
+
+**História 2: Cadastrar Pets**
+
+**Como:** morador
+**Quero:** cadastrar todos os pets existentes na residência, para reconhecimento do mesmo nas áreas externas.
+
+**Descrição:**
+O morador poderá cadastrar seus animais de estimação.
+
+**Critérios de Aceitação:**
+- [x] Criar opção de cadastrar pet.
+- [x] Criar tela de cadastrar pet.
+- [x] Integrar com o banco de dados.
+
+**Status:** Concluído
+
+---
+
+**História 3: Lista de Pets**
+
+**Como:** síndico
+**Quero:** ter acesso a uma lista com todos os pets cadastrados nas respectivas residências.
+
+**Critérios de Aceitação:**
+- [x] Criar opção de listar pets.
+- [x] Criar tela de listar pets.
+
+**Status:** Concluído
+
+---
+
+**História 4: Cadastrar Comunicados**
+
+**Como:** síndico
+**Quero:** cadastrar comunicados, para informar os moradores sobre assuntos ou decisões importantes (como ocorrências/agendamento de assembleias).
+
+**Critérios de Aceitação:**
+- [x] Criar opção de cadastrar comunicados.
+- [x] Criar tela de cadastrar comunicados.
+
+**Status:** Concluído
+
+---
+
+**História 5: Gestão de Funcionários**
+
+**Como:** síndico
+**Quero:** cadastrar e editar funcionários, para manter os dados atualizados.
+
+**Descrição:**
+O síndico deverá ter a opção de cadastrar um novo funcionário ou listar os funcionários existentes, podendo editá-los ou excluí-los.
+
+**Critérios de Aceitação:**
+- [x] Criar a opção de cadastrar funcionários.
+- [x] Criar tela de cadastrar funcionários.
+- [x] Criar tela de listar funcionários.
+- [x] Criar opção de excluir funcionários.
+
+**Status:** Concluído
+
+---
+
+### Entrega Final
+
+**História 1: Consultar Atas**
+
+**Como:** morador
+**Quero:** consultar as atas das assembleias do condomínio, para ficar informado sobre as discussões e decisões acordadas.
+
+**Critérios de Aceitação:**
+- [x] Criar opção de consultar Atas.
+- [x] Criar tela de consultar Atas.
+
+**Status:** Concluído
+
+---
+
 ## Documentos do Projeto
 
 Você pode acessar os documentos completos do projeto através do seguinte link:
