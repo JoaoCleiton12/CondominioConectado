@@ -244,7 +244,79 @@ O síndico deverá ter a opção de cadastrar um novo funcionário ou listar os 
 - [x] Estimativa de tempo.
 - [x] Estimativa de entrega.
 
-**Link:** [Estimativa de Software]([https://docs.google.com/presentation/d/1DM67UvOzubgGcaEkEk1h-KarfDLmatqBfiv_AOFDw/edit?usp=drivesdk](https://docs.google.com/presentation/d/1DM67U_vOzubgGcaEkEk1h-KarfDLmatqBFfiv_AOFDw/edit?slide=id.g3573cd9178a_1_9#slide=id.g3573cd9178a_1_9))
+**Link:** [Estimativa de Software](https://docs.google.com/presentation/d/1DM67UvOzubgGcaEkEk1h-KarfDLmatqBfiv_AOFDw/edit?usp=drivesdk)
+
+**Status:** Concluído
+
+---
+
+### Sprint 5: Reservas e Controle de Acesso (15/07/2025)
+
+**História 1: Cadastrar Visitantes**
+
+**Como:** morador
+**Quero:** cadastrar visitantes no condomínio, para garantir a segurança e controle de acesso.
+
+**Critérios de Aceitação:**
+- [x] Criar opção de cadastrar visitante.
+- [x] Criar tela de cadastrar visitante.
+- [x] Criar opção de cadastrar visita.
+- [x] Criar tela de cadastrar visita.
+
+**Status:** Concluído
+
+---
+
+**História 2: Solicitar Reserva**
+
+**Como:** morador
+**Quero:** solicitar a reserva de um espaço comum, para uso privado em eventos.
+
+**Descrição:**
+O morador irá na opção de reservar espaço comum e poderá selecionar o dia e o horário que deseja solicitar a reserva, desde que esteja disponível.
+
+**Critérios de Aceitação:**
+- [x] Criar opção de reservar área.
+- [x] Criar tela de reservar área.
+- [x] Criar tela de listar dias/horários disponíveis.
+
+**Status:** Concluído
+
+---
+
+**História 3: Consultar Reservas (Síndico)**
+
+**Como:** síndico
+**Quero:** consultar todas as reservas feitas, para monitoramento geral.
+
+**Critérios de Aceitação:**
+- [x] Criar tela de listar reservas.
+- [x] Criar opção de verificar reservas.
+
+**Status:** Concluído
+
+---
+
+**História 4: Consultar Lista de Visitantes (Porteiro/Zelador)**
+
+**Como:** porteiro/zelador
+**Quero:** consultar a lista de visitante cadastrados, para garantir o acesso seguro de pessoas ao condomínio.
+
+**Critérios de Aceitação:**
+- [x] Criar opção de listar visitantes.
+- [x] Criar opção de registrar presença do visitante.
+
+**Status:** Concluído
+
+---
+
+**História 5: Consultar Reservas (Porteiro/Zelador)**
+
+**Como:** porteiro/zelador
+**Quero:** consultar a lista de reserva de um espaço comum, para organizar o espaço.
+
+**Critérios de Aceitação:**
+- [x] Criar opção de listar reservas.
 
 **Status:** Concluído
 
